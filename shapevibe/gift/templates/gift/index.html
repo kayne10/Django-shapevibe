@@ -1,0 +1,14 @@
+{% extends 'gift/base.html' %}
+
+{% block body %}
+    <h1>Welcome {{user.username}}  to Shapevibe</h1>
+    {% for gift in all_gifts %}
+        <div class="col-md-4">
+            <div class="panel">
+                <!-- If else statement with default img or uploaded img -->
+                <h3>{{gift.gift_title}}</h3>
+                <h4>Posted by {{gift.user}} at {{gift.created_at}}</h4>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
