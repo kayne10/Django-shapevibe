@@ -1,14 +1,43 @@
 {% extends 'gift/base.html' %}
+{% load static %}
 
 {% block body %}
-    <h1>Welcome {{user.username}}  to Shapevibe</h1>
-    {% for gift in all_gifts %}
-        <div class="col-md-4">
-            <div class="panel">
-                <!-- If else statement with default img or uploaded img -->
-                <h3>{{gift.gift_title}}</h3>
-                <h4>Posted by {{gift.user}} at {{gift.created_at}}</h4>
+    <!-- Shapevibe logo will -->
+    <div class="container" style="width:100%;">
+        <a href="{% url 'gift:view_profile' %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="150" alt="" style="margin-top:-2em; margin-left:-3em;"></a><br>
+        <h1>Welcome {{user.username}} to Shapevibe!</h1>
+        {% for gift in all_gifts %}
+            <div class="col-sm-6 col-md-4">
+                <div class="thumbnail post-thumbnail">
+                    <!-- If else statement with default img or uploaded img -->
+                    {% if gift.gift_image %}
+                        <img src="{{ gift.gift_image.url }}" class="img-responsive" alt="">
+                    {% else %}
+                        <img src="{% static 'gift/img/iconMedium.png' %}" alt="">
+                    {% endif %}
+                    <div class="caption" id="caption">
+                        <!--<h3><a href="{% url 'gift:detail' gift.id %}" data-toggle="modal" data-target="#giftModal">{{gift.gift_title}}</a></h3>-->
+                        <h3><a href="{% url 'gift:detail' gift.id %}">{{gift.gift_title}}</a></h3>
+                        <h4>Posted by {{gift.user}} at {{gift.created_at}}</h4>
+                    </div>
+                </div>
             </div>
-        </div>
+            <div class="modal fade" id="giftModal" tabindex="-1" role="dialog" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    {% for gift in all_gifts %}
+    $('#giftModal').modal({
+        show:false,
+        remote: 'gift/context/?p={{gift.id}}'
+    })
     {% endfor %}
 {% endblock %}

@@ -2,10 +2,10 @@
 <html>
 <head>
     <meta charset="utf-8">
-    <title>Shapevibe</title>
+    <title>Shapevibe{% if gift%} - {{gift.gift_title}}{% endif %}</title>
     {% load staticfiles %}
     <!--<link rel="shortcut icon" type="image/png" href="{%  static 'favicon.ico' %}"/>-->
-    <!--<link rel="stylesheet" type="text/css" href="{% static 'gift/style.css' %}"/>-->
+    <link rel="stylesheet" type="text/css" href="{% static 'gift/style.css' %}"/>
     <link href="https://fonts.googleapis.com/css?family=Chango" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -13,6 +13,10 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
+    <!-- Share this scripts -->
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" id="st_insights_js" src="http://w.sharethis.com/button/buttons.js?publisher=37361ad7-20a5-4bd8-8f47-e2f48ef59fd4"></script>
+    <script type="text/javascript">stLight.options({publisher: "37361ad7-20a5-4bd8-8f47-e2f48ef59fd4", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
     <!--<script src="{% static 'gift/js/main.js' %}"></script>-->
 </head>
 <body>

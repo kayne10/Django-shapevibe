@@ -1,13 +1,38 @@
 {% extends 'gift/base.html' %}
 {% block title %}{{gift}}{% endblock %}
+{% load static %}
 
 {% block body %}
-    <div class="col-md-8">
-        <div class="panel">
-            <!-- If else statement with default img and uploaded img -->
-            <h1>{{gift.gift_title}}</h1>
-            <h2>Posted by {{gift.user}} at {{gift.created_at}}</h2>
-            <p>{{gift.gift_description}}</p>
+<div class="container-fluid">
+    <a href="{% url 'gift:index' %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="100" alt=""></a><br>
+    <div class="col-md-10 col-md-offset-1">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel">
+                    {% if gift.gift_image %}
+                        <img src="{{gift.gift_image.url}}" class="img-responsive" alt="">
+                    {% else %}
+                        <img src="{% static 'gift/img/iconMedium.png' %}" alt="">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel">
+                    {% if success_message %}
+                    <div class="alert alert-success">
+                        {{success_message}}
+                    </div>
+                    {% endif %}
+                    <h1><strong>Title:</strong> {{gift.gift_title}}</h1>
+                    <p>Description: <br>{{gift.gift_description}}</p>
+                    <h6>Posted by {{gift.user}} at {{gift.created_at}}</h6>
+                    <div class="share">
+                        <span class='st_facebook_large' displayText='Facebook'></span>
+                        <span class='st_twitter_large' displayText='Tweet'></span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 {% endblock %}

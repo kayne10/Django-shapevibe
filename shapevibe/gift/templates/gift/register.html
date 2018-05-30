@@ -1,11 +1,32 @@
 {% extends 'gift/base_visitor.html' %}
 {% block title %}Register{% endblock %}
+{% load static %}
+
 
 {% block body %}
-    <h1>Please Register for Shapevibe</h1>
-    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
-        <div class="form-group">
-            <button type="submit">Submit</button>
+<div class="container-fluid">
+    <div class="panel panel-default">
+        <img src="{% static 'gift/img/iconMedium.png' %}" width="150" alt="">
+        <h1>Sign up</h1>
+        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+                <p>
+                    {{ field.label_tag }}
+                    {{ field }}
+                    {% if field.help_text %}
+                        <small style="display:none">{{ field.help_text }}</small>
+                    {% endif %}
+                    {% for error in field.errors %}
+                        <p style="color:red">{{ error }}</p>
+                    {% endfor %}
+                </p>
+            {% endfor %}
+            <button type="submit" class="btn btn-success">Sign up</button>
+        </form>
+        <div class="login-footer">
+            Already have an account? <a href="{% url 'gift:login_user' %}">Click here</a> to log in.
         </div>
-    </form>
+    </div>
+</div>
 {% endblock %}

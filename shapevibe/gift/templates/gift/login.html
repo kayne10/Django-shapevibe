@@ -1,32 +1,40 @@
 {% extends 'gift/base_visitor.html' %}
 {% block title %}Login{% endblock %}
+{% load static %}
+
 
 {% block body %}
-    <h1>Log in</h1>
-    {% if error_message %}
-        <p><strong>{{ error_message }}</strong></p>
-    {% endif %}
-    <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-            <label class="control-label col-sm-12" for="id_username">Username:</label>
-            <div class="col-sm-10">
-                <input id="id_username" maxlength="30" name="username" type="text" />
+<div class="container-fluid">
+    <div class="auth-panel">
+        <img src="{% static 'gift/img/viberTool.png' %}" style="text-align:center" width="150px" alt="">
+        <h1>Log in</h1>
+        {% if error_message %}
+            <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
+        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="id_username">Username:</label>
+                <div class="col-sm-10">
+                    <input id="id_username" maxlength="30" name="username" type="text" />
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <label class="control-label col-sm-12" for="id_password">Password:</label>
-            <div class="col-sm-10">
-                <input id="id_password" maxlength="30" name="password" type="password" />
+            <div class="form-group">
+                <label class="control-label col-sm-2" for="id_password">Password:</label>
+                <div class="col-sm-10">
+                    <input id="id_password" maxlength="30" name="password" type="password" />
+                </div>
             </div>
-        </div>
-        <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-                <button type="submit" class="btn btn-success">Submit</button>
+            <div class="form-group">
+                <div class="control-label col-sm-2">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
             </div>
+        </form>
+        <br>
+        <div class="login-footer">
+            Don't have an account? <a href="{% url 'gift:register' %}">Click here</a> to register.
         </div>
-    </form>
-    <div class="login-footer">
-        Don't have an account? <a href="{% url 'gift:register' %}">Click here</a> to register.
     </div>
+</div>
 {% endblock %}
