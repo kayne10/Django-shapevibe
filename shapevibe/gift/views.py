@@ -103,16 +103,17 @@ def view_profile(request):
 @login_required
 def update_profile(request):
     if request.method == 'POST':
-        # user_form = UserForm(request.POST, instance=request.user)
+        user_form = UserForm(request.POST, instance=request.user)
         profile_form = ProfileForm(request.POST, request.FILES, instance=request.user.profile)
-        if profile_form.is_valid():
-            # user_form.save()
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
             profile = profile_form.save(commit=False)
             if profile.avatar:
                 file_type = profile.avatar.url.split('.')[-1]
                 if file_type not in IMAGE_FILE_TYPES:
                     context = {
                         'profile_form': profile_form,
+                        'user_form': user_form,
                         'error_message': 'Image file must be PNG, JPG, or JPEG',
                     }
                     return render(request, 'gift/edit_profile.html', context)
@@ -124,11 +125,16 @@ def update_profile(request):
             }
             return render(request, 'gift/profile.html', context)
         else:
-            error_message = 'Error saving profile info'
+            context = {
+                'user_form': user_form,
+                'profile_form': profile_form,
+                'error_message': 'Error saving profile info',
+            }
+            return render(request, 'gift/edit_profile.html', context)
     else:
-        # user_form = UserForm(instance=request.user)
+        user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
-    return render(request, 'gift/edit_profile.html', {'profile_form': profile_form})
+    return render(request, 'gift/edit_profile.html', {'user_form': user_form,'profile_form': profile_form})
 # Authentication
 def logout_user(request):
     logout(request)

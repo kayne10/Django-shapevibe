@@ -11,6 +11,7 @@
     {% endif %}
     <form class="horizontal-form" method="post" role="form" enctype="multipart/form-data">
         {% csrf_token %}
+        {{ user_form.as_p }}
         {{ profile_form.as_p }}
         <button type="submit">Save changes</button>
     </form>

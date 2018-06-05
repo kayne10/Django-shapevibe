@@ -18,14 +18,14 @@
                     <h4>Email: {{user.email}}</h4>
                     <!-- Profile Pic -->
                     {% if user.profile.avatar %}
-                        <img src="{{ user.profile.avatar.url }}" alt="" width="200px">
+                        <img src="{{ user.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%">
                     {% else %}
                         <img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px">
                     {% endif %}
                     <!-- summary -->
                     <br>
                     Name: {{user.profile.first_name}} {{ user.profile.last_name }} <br>
-                    Summary: <p>{{user.profile.summary}}</p>
+                    Summary: <p class="profile-summary">{{user.profile.summary}}</p>
                     <!-- Edit button -->
                     <a href="{% url 'gift:update_profile' %}">Edit Info</a>
                     <a href="{% url 'gift:logout_user' %}">Logout</a>

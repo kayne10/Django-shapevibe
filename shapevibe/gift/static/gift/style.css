@@ -71,6 +71,9 @@ body {
     height: 600px;
 }
 
+.profile-summary {
+    white-space: pre-wrap;
+}
 
 footer {
     background: black;

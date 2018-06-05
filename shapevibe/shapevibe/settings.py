@@ -127,7 +127,7 @@ MEDIA_URL = '/media/'
 
 # Login/Logout Redirects
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/gift/'
+LOGIN_REDIRECT_URL = '/gifts/'
 LOGOUT_REDIRECT = '/login/'
 
 #email settings
