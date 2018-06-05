@@ -32,6 +32,10 @@
             </div>
         </form>
         <br>
+        <strong>-- OR --</strong><br>
+        <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a><br>
+        <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a><br>
+        <br>
         <div class="login-footer">
             Don't have an account? <a href="{% url 'gift:register' %}">Click here</a> to register.
         </div>

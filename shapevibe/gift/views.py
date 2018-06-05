@@ -21,9 +21,10 @@ IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 # Create your views here.
 @login_required
 def index(request):
+    user = request.user
     all_gifts = Gift.objects.all().order_by('-id')  # or filter by user
     # query = request.GET.get("q")
-    return render(request, 'gift/index.html', {'all_gifts': all_gifts})
+    return render(request, 'gift/index.html', {'user': user, 'all_gifts': all_gifts})
 
 @login_required
 def detail(request, gift_id):
@@ -93,12 +94,21 @@ def delete_gift(request, gift_id):
     gifts_posted_by_user = Gift.objects.filter(user=request.user)
     return render(request, 'gift/profile.html', {'user': request.user, 'gifts':gifts_posted_by_user})
 
-# Update and Delete profile
+# Profile views
 @login_required
-def view_profile(request):
+def view_profile(request, username):
     user = request.user
+    # ******
+    profile = User.objects.get(username=username)
+    # ******
     gifts_posted_by_user = Gift.objects.filter(user=user)
-    return render(request, 'gift/profile.html', {'user': user, 'gifts': gifts_posted_by_user})
+    gifts_by_viewed_user = Gift.objects.filter(user=profile)
+    return render(request, 'gift/profile.html', {
+                                                    'user': user,
+                                                    'profile': profile,
+                                                    'gifts': gifts_posted_by_user,
+                                                    'profile_gifts': gifts_by_viewed_user,
+                                                })
 
 @login_required
 def update_profile(request):
@@ -135,6 +145,17 @@ def update_profile(request):
         user_form = UserForm(instance=request.user)
         profile_form = ProfileForm(instance=request.user.profile)
     return render(request, 'gift/edit_profile.html', {'user_form': user_form,'profile_form': profile_form})
+
+@login_required
+def delete_user(request, username):
+    try:
+        user = User.objects.get(username=username)
+        user.delete()
+        return render(request, 'gift/delete.html', {'success_message': 'You succesfully deleted your account.'})
+    except:
+        error_message = 'Something went wrong.'
+    return render(request, 'gift/delete.html', {'error_message': error_message})
+
 # Authentication
 def logout_user(request):
     logout(request)

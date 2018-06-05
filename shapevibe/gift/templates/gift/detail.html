@@ -23,9 +23,9 @@
                         {{success_message}}
                     </div>
                     {% endif %}
-                    <h1><strong>Title:</strong> {{gift.gift_title}}</h1>
+                    <h1><strong>Title:</strong> {{gift.gift_title|title}}</h1>
                     <p>Description: <br>{{gift.gift_description}}</p>
-                    <h6>Posted by {{gift.user}} at {{gift.created_at}}</h6>
+                    <h6>Posted by <a href="{% url 'gift:view_profile' gift.user.username %}">{{gift.user}}</a> at {{gift.created_at}}</h6>
                     <div class="share">
                         <span class='st_facebook_large' displayText='Facebook'></span>
                         <span class='st_twitter_large' displayText='Tweet'></span>

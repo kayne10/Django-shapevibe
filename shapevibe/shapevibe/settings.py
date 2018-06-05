@@ -10,6 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.0/ref/settings/
 """
 
+import json
+import codecs
 import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -38,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gift.apps.GiftConfig',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'shapevibe.urls'
@@ -63,10 +67,21 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
 ]
+
+# Social Authentication Backends
+AUTHENTICATION_BACKENDS = (
+    'social_core.backends.twitter.TwitterOAuth',
+    'social_core.backends.facebook.FacebookOAuth2',
+    'social.backends.google.GoogleOAuth2',
+
+    'django.contrib.auth.backends.ModelBackend',
+)
 
 WSGI_APPLICATION = 'shapevibe.wsgi.application'
 
@@ -74,6 +89,8 @@ WSGI_APPLICATION = 'shapevibe.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
+
+# Eventually will change to postgres database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -130,11 +147,22 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/gifts/'
 LOGOUT_REDIRECT = '/login/'
 
+# read credentials from config file
+data = json.load(codecs.open('./shapevibe/creds.json', 'r', 'utf-8-sig'))
+
+# Social media secret keys
+SOCIAL_AUTH_TWITTER_KEY = data['twitterKey']
+SOCIAL_AUTH_TWITTER_SECRET = data['twitterSecret']
+
+SOCIAL_AUTH_FACEBOOK_KEY = data['facebookID']
+SOCIAL_AUTH_FACEBOOK_SECRET = data['facebookSecret']
+
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True # for postgres
 #email settings
 #use shapevibe gmail
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'shapevibe0@gmail.com'
-EMAIL_HOST_PASSWORD = 'shapevibe123'
+EMAIL_HOST_USER = data['emailHost']
+EMAIL_HOST_PASSWORD = data['emailHostPassword']
 EMAIL_PORT = 587

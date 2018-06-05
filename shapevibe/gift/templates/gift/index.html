@@ -4,7 +4,7 @@
 {% block body %}
     <!-- Shapevibe logo will -->
     <div class="container" style="width:100%;">
-        <a href="{% url 'gift:view_profile' %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="150" alt="" style="margin-top:-2em; margin-left:-3em;"></a><br>
+        <a href="{% url 'gift:view_profile' user.username %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="150" alt="" style="margin-top:-2em; margin-left:-3em;"></a><br>
         <h1>Welcome {{user.username}} to Shapevibe!</h1>
         {% for gift in all_gifts %}
             <div class="col-sm-6 col-md-4">
@@ -17,8 +17,8 @@
                     {% endif %}
                     <div class="caption" id="caption">
                         <!--<h3><a href="{% url 'gift:detail' gift.id %}" data-toggle="modal" data-target="#giftModal">{{gift.gift_title}}</a></h3>-->
-                        <h3><a href="{% url 'gift:detail' gift.id %}">{{gift.gift_title}}</a></h3>
-                        <h4>Posted by {{gift.user}} at {{gift.created_at}}</h4>
+                        <h3><a href="{% url 'gift:detail' gift.id %}">{{gift.gift_title|title}}</a></h3>
+                        <h4>Posted by <a href="{% url 'gift:view_profile' gift.user.username %}">{{gift.user}}</a> at {{gift.created_at}}</h4>
                     </div>
                 </div>
             </div>

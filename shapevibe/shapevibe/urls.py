@@ -22,6 +22,7 @@ urlpatterns = [
     url('admin/', admin.site.urls),
     url(r'^gifts/', include('gift.urls')),
     url(r'^', include('gift.urls')),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),
 ]
 
 if settings.DEBUG:
