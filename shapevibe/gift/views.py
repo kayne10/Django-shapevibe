@@ -59,6 +59,9 @@ def create_gift(request):
 @login_required
 def edit_gift(request, gift_id):
     gift = get_object_or_404(Gift, pk=gift_id)
+    viber = gift.user
+    if request.user != viber:
+        return redirect('gift:detail', gift_id=gift_id)
     if request.method == 'POST':
         form = GiftForm(request.POST, request.FILES, instance=gift)
         try:
@@ -98,9 +101,7 @@ def delete_gift(request, gift_id):
 @login_required
 def view_profile(request, username):
     user = request.user
-    # ******
     profile = User.objects.get(username=username)
-    # ******
     gifts_posted_by_user = Gift.objects.filter(user=user)
     gifts_by_viewed_user = Gift.objects.filter(user=profile)
     return render(request, 'gift/profile.html', {
@@ -130,6 +131,7 @@ def update_profile(request):
             profile.save()
             context = {
                 'user': request.user,
+                'profile': request.user,
                 'gifts': Gift.objects.filter(user=request.user),
                 'success_message': 'You succesfully updated your profile',
             }

@@ -157,6 +157,9 @@ SOCIAL_AUTH_TWITTER_SECRET = data['twitterSecret']
 SOCIAL_AUTH_FACEBOOK_KEY = data['facebookID']
 SOCIAL_AUTH_FACEBOOK_SECRET = data['facebookSecret']
 
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = data['googleClientID']
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = data['googleSecret']
+
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True # for postgres
 #email settings
 #use shapevibe gmail
