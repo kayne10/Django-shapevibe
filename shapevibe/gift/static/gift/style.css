@@ -43,14 +43,14 @@ body {
     display: none;
 }
 .thumbnail {
-    border: 0;
-    background: transparent;
+    border: none;
+    background-color: transparent;
 }
 .post-thumbnail {
     margin: 0;
     color: black;
     background: transparent;
-    border: 0;
+    border: none;
     padding: -10px;
 }
 .post-thumbnail img {

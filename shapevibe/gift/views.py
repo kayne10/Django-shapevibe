@@ -9,6 +9,7 @@ from django.utils.encoding import force_bytes, force_text
 from django.core.mail import EmailMessage
 from django.template.loader import render_to_string
 from django.contrib.auth.models import User
+from django.db.models import Q
 from .tokens import account_activation_token
 from .forms import GiftForm, UserForm, SignupForm,ProfileForm
 from .models import Gift
@@ -27,8 +28,8 @@ def index(request):
     query = request.GET.get("q")
     if query:
         # soon will filter by tags as well
-        gifts = Gift.objects.filter(gift_title__icontains=query).distinct()
-        users = users.filter(username__contains=query).distinct()
+        gifts = Gift.objects.filter(Q(gift_title__icontains=query) | Q(gift_description__icontains=query)).distinct()
+        users = users.filter(Q(username__contains=query) | Q(profile__first_name__contains=query) | Q(profile__last_name__contains=query)).distinct()
         return render(request, 'gift/index.html', {'gifts':gifts, 'users': users})
     else:
         return render(request, 'gift/index.html', {'user': user, 'gifts': gifts})
@@ -178,8 +179,8 @@ def login_user(request):
         if user is not None:
             if user.is_active:
                 login(request, user)
-                all_gifts = Gift.objects.all().order_by('-id') # or filter by user
-                return render(request, 'gift/index.html', {'all_gifts': all_gifts, 'user':user})
+                gifts = Gift.objects.all().order_by('-id') # or filter by user
+                return render(request, 'gift/index.html', {'gifts': gifts, 'user':user})
             else:
                 return render(request, 'gift/login.html', {'error_message': 'Your account has been disabled'})
         else:
@@ -204,6 +205,7 @@ def register(request):
             to_email = form.cleaned_data.get('email')
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
+            # probably a good idea to make a template
             return HttpResponse('Please confirm your email to complete registration')
     else:
         form = SignupForm()

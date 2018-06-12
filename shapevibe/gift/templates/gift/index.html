@@ -12,6 +12,7 @@
             <button type="submit" class="btn btn-primary">Go!</button>
         </form>
         {% if gifts %}
+            <div class="row">
             {% for gift in gifts %}
                 <div class="col-sm-6 col-md-4 gift-list">
                     <div class="thumbnail post-thumbnail">
@@ -19,7 +20,7 @@
                         {% if gift.gift_image %}
                             <img src="{{ gift.gift_image.url }}" class="img-responsive" alt="">
                         {% else %}
-                            <img src="{% static 'gift/img/iconMedium.png' %}" alt="">
+                            <img src="{% static 'gift/img/iconMedium.png' %}" class="img-responsive" alt="">
                         {% endif %}
                         <div class="caption" id="caption">
                             <!--<h3><a href="{% url 'gift:detail' gift.id %}" data-toggle="modal" data-target="#giftModal">{{gift.gift_title}}</a></h3>-->
@@ -36,19 +37,36 @@
                     </div>
                 </div>
             {% endfor %}
+            </div>
         {% endif %}
-    </div>
-    <div class="row">
-        {% if users %}
-        <div class="user-list">
-            <h3>Results</h3>
-            <ul>
-                {% for user in users %}
-                    <li>{{ user.username }}</li>
-                {% endfor %}
-            </ul>
+        <div class="row">
+            {% if users %}
+            <div class="user-list">
+                <h3>User Results</h3>
+                <ul>
+                    {% for user in users %}
+                        <div class="col-xs-6 col-sm-6 col-md-3">
+                            <div class="thumbnail user-thumbnail">
+                                {% if user.profile.avatar %}
+                                    <img src="{{ user.profile.avatar.url }}" class="img-responsive" alt="">
+                                {% else %}
+                                    <img src="{% static 'gift/img/iconMedium.png' %}" class="img-responsive" alt="">
+                                {% endif %}
+                                <div class="user-caption">
+                                    <h3><a href="{% url 'gift:view_profile' user.username %}">{{ user.username }}</a></h3>
+                                    {% if user.profile.first_name and user.profile.last_name %}
+                                        <h4 style="color:black">{{ user.profile.first_name }} {{ user.profile.last_name }}</h4>
+                                    {% else %}
+                                        <h4 style="color:black"><strong>No name provided</strong></h4>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
         </div>
-        {% endif %}
     </div>
 {% endblock %}
 
