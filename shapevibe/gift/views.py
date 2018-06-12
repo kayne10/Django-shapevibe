@@ -22,9 +22,16 @@ IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 @login_required
 def index(request):
     user = request.user
-    all_gifts = Gift.objects.all().order_by('-id')  # or filter by user
-    # query = request.GET.get("q")
-    return render(request, 'gift/index.html', {'user': user, 'all_gifts': all_gifts})
+    gifts = Gift.objects.all().order_by('-id')  # or filter by user
+    users = User.objects.all()
+    query = request.GET.get("q")
+    if query:
+        # soon will filter by tags as well
+        gifts = Gift.objects.filter(gift_title__icontains=query).distinct()
+        users = users.filter(username__contains=query).distinct()
+        return render(request, 'gift/index.html', {'gifts':gifts, 'users': users})
+    else:
+        return render(request, 'gift/index.html', {'user': user, 'gifts': gifts})
 
 @login_required
 def detail(request, gift_id):

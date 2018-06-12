@@ -6,30 +6,49 @@
     <div class="container" style="width:100%;">
         <a href="{% url 'gift:view_profile' user.username %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="150" alt="" style="margin-top:-2em; margin-left:-3em;"></a><br>
         <h1>Welcome {{user.username}} to Shapevibe!</h1>
-        {% for gift in all_gifts %}
-            <div class="col-sm-6 col-md-4">
-                <div class="thumbnail post-thumbnail">
-                    <!-- If else statement with default img or uploaded img -->
-                    {% if gift.gift_image %}
-                        <img src="{{ gift.gift_image.url }}" class="img-responsive" alt="">
-                    {% else %}
-                        <img src="{% static 'gift/img/iconMedium.png' %}" alt="">
-                    {% endif %}
-                    <div class="caption" id="caption">
-                        <!--<h3><a href="{% url 'gift:detail' gift.id %}" data-toggle="modal" data-target="#giftModal">{{gift.gift_title}}</a></h3>-->
-                        <h3><a href="{% url 'gift:detail' gift.id %}">{{gift.gift_title|title}}</a></h3>
-                        <h4>Posted by <a href="{% url 'gift:view_profile' gift.user.username %}">{{gift.user}}</a> at {{gift.created_at}}</h4>
+        <!-- Search Bar to Query users, gifts, and tags -->
+        <form method="get" role="search" action="{% url 'gift:index' %}">
+          Search:<input type="text" name="q" id="id_q" value="{{ request.GET.q }}" style="color:black"/>
+            <button type="submit" class="btn btn-primary">Go!</button>
+        </form>
+        {% if gifts %}
+            {% for gift in gifts %}
+                <div class="col-sm-6 col-md-4 gift-list">
+                    <div class="thumbnail post-thumbnail">
+                        <!-- If else statement with default img or uploaded img -->
+                        {% if gift.gift_image %}
+                            <img src="{{ gift.gift_image.url }}" class="img-responsive" alt="">
+                        {% else %}
+                            <img src="{% static 'gift/img/iconMedium.png' %}" alt="">
+                        {% endif %}
+                        <div class="caption" id="caption">
+                            <!--<h3><a href="{% url 'gift:detail' gift.id %}" data-toggle="modal" data-target="#giftModal">{{gift.gift_title}}</a></h3>-->
+                            <h3><a href="{% url 'gift:detail' gift.id %}">{{gift.gift_title|title}}</a></h3>
+                            <h4>Posted by <a href="{% url 'gift:view_profile' gift.user.username %}">{{gift.user}}</a> at {{gift.created_at}}</h4>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal fade" id="giftModal" tabindex="-1" role="dialog" aria-hidden="true">
-                <div class="modal-dialog" role="document">
-                    <div class="modal-content">
+                <div class="modal fade" id="giftModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
 
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endfor %}
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="row">
+        {% if users %}
+        <div class="user-list">
+            <h3>Results</h3>
+            <ul>
+                {% for user in users %}
+                    <li>{{ user.username }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
     </div>
 {% endblock %}
 

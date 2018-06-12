@@ -32,10 +32,13 @@ body {
 }
 
 /* inputs */
-#id_username, #id_password {
+#id_username, #id_password, #id_q {
     color: black;
 }
 
+#id_q {
+    color: black;
+}
 .caption {
     display: none;
 }
