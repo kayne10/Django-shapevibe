@@ -178,7 +178,7 @@ def login_user(request):
         user = authenticate(username=username, password=password)
         if user is not None:
             if user.is_active:
-                login(request, user)
+                login(request, user, backend='django.contrib.auth.backends.ModelBackend')
                 gifts = Gift.objects.all().order_by('-id') # or filter by user
                 return render(request, 'gift/index.html', {'gifts': gifts, 'user':user})
             else:
@@ -220,8 +220,8 @@ def activate(request, uidb64, token):
     if user is not None and account_activation_token.check_token(user, token):
         user.is_active = True
         user.save()
-        login(request, user)
-        return HttpResponseRedirect('/gift/')
+        login(request, user,backend='django.contrib.auth.backends.ModelBackend')
+        return HttpResponseRedirect('/gifts/')
     else:
         return HttpResponse('Activation link is invalid!')
 

@@ -1,10 +1,13 @@
 {
-  "twitterKey":"eFWZmvKMVpfR3jGfQo7QFKbVL",
-  "twitterSecret":"2gdUESQMYtYs4dL62RwqDlgKOUwgjf6GxcxD7h9tbcT2PEq3Vp",
+  "twitterKey":"AfE6OtHtCVYfWlWVMAlIjfhoe",
+  "twitterSecret":"GDDQlXdK3iL0rAIEMfHpemgrJ5ZLionOCMFJlhm8UP4NJPlfve",
   "facebookID":"730550517106764",
   "facebookSecret":"5fc51adc8ba5140575c50c78ac555c0a",
   "googleClientID":"194669466527-0u6ik2s6c03i9okm3iujtb0qh8ru89pg.apps.googleusercontent.com",
   "googleSecret":"wAF6mYykUMHSDDI-wDBf2E6w",
   "emailHost":"shapevibe0@gmail.com",
-  "emailHostPassword":"shapevibe123"
+  "emailHostPassword":"shapevibe123",
+  "pgName":"local_shapevibe",
+  "pgUser":"tkayne",
+  "pgPassword":"windig#300"
 }

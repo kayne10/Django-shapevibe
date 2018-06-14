@@ -18,6 +18,9 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
+# read credentials from config file
+data = json.load(codecs.open('./shapevibe/creds.json', 'r', 'utf-8-sig'))
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
@@ -91,10 +94,25 @@ WSGI_APPLICATION = 'shapevibe.wsgi.application'
 
 
 # Eventually will change to postgres database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
+
+# POSTGRES
+SOCIAL_AUTH_POSTGRES_JSONFIELD = True
+SOCIAL_AUTH_URL_NAMESPACE = 'social'
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': data['pgName'],
+        'USER': data['pgUser'],
+        'PASSWORD': data['pgPassword'],
+        'HOST': 'localhost',
+        'PORT': '5432',
     }
 }
 
@@ -147,8 +165,6 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/gifts/'
 LOGOUT_REDIRECT = '/login/'
 
-# read credentials from config file
-data = json.load(codecs.open('./shapevibe/creds.json', 'r', 'utf-8-sig'))
 
 # Social media secret keys
 SOCIAL_AUTH_TWITTER_KEY = data['twitterKey']
@@ -160,7 +176,18 @@ SOCIAL_AUTH_FACEBOOK_SECRET = data['facebookSecret']
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = data['googleClientID']
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = data['googleSecret']
 
-SOCIAL_AUTH_POSTGRES_JSONFIELD = True # for postgres
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.get_username',
+    'social_core.pipeline.user.create_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+    'social_core.pipeline.social_auth.associate_by_email',
+) 
+
 #email settings
 #use shapevibe gmail
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'

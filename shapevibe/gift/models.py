@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.postgres.fields import ArrayField
+from django.contrib.postgres.fields import JSONField
 from django.contrib.auth.models import User, AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
@@ -14,6 +14,7 @@ class Gift(models.Model):
     gift_image = models.FileField(blank=True)
     created_at = models.DateField(default=datetime.date.today)
 
+
     def __str__(self):
         return self.gift_title + ' - ' + self.user.username
 
@@ -26,9 +27,9 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=20, blank=True)
     summary = models.TextField(max_length=500, blank=True)
     avatar = models.FileField(upload_to='avatars/', blank=True)
-    # tags as foreign key
-    #tags = models.ForeignKey(Tag, )or models.ManyToManyField(Tag)
-    #tags = ArrayField(models.CharField(max_length=50), blank=True, null=True)
+    # tags are for Postgres db only
+
+    user.is_active = True
 
     def __str__(self):
         return self.user.username + ': ' + self.first_name + ' ' + self.last_name
