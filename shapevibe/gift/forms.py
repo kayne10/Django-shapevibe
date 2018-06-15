@@ -9,7 +9,7 @@ class GiftForm(forms.ModelForm):
 
     class Meta:
         model = Gift
-        fields = ['gift_title', 'gift_description', 'gift_image']
+        fields = ['gift_title', 'gift_description', 'gift_image', 'tags']
 
 
 class UserForm(forms.ModelForm):
@@ -23,7 +23,7 @@ class ProfileForm(forms.ModelForm):
 
     class Meta:
         model = Profile
-        fields = ('first_name', 'last_name', 'summary', 'avatar')
+        fields = ('first_name', 'last_name', 'summary', 'avatar', 'tags')
 
 class SignupForm(UserCreationForm):
     email = forms.EmailField(max_length=200, help_text='Required')

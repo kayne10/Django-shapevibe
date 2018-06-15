@@ -28,8 +28,17 @@ def index(request):
     query = request.GET.get("q")
     if query:
         # soon will filter by tags as well
-        gifts = Gift.objects.filter(Q(gift_title__icontains=query) | Q(gift_description__icontains=query)).distinct()
-        users = users.filter(Q(username__contains=query) | Q(profile__first_name__contains=query) | Q(profile__last_name__contains=query)).distinct()
+        gifts = Gift.objects.filter(
+            Q(gift_title__icontains=query) |
+            Q(gift_description__icontains=query) |
+            Q(tags__icontains=query)
+        ).distinct()
+        users = users.filter(
+            Q(username__contains=query) |
+            Q(profile__first_name__iexact=query) |
+            Q(profile__last_name__iexact=query) |
+            Q(profile__tags__icontains=query)
+        ).distinct()
         return render(request, 'gift/index.html', {'gifts':gifts, 'users': users})
     else:
         return render(request, 'gift/index.html', {'user': user, 'gifts': gifts})

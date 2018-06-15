@@ -25,6 +25,11 @@
                     {% endif %}
                     <h1><strong>Title:</strong> {{gift.gift_title|title}}</h1>
                     <p>Description: <br>{{gift.gift_description}}</p>
+                    Tags: <ul style="list-style:none; display:flex; justify-content:space-around;">
+                    {% for tag in gift.tags %}
+                        <li>{{tag}}</li>
+                    {% endfor %}
+                    </ul>
                     <h6>Posted by <a href="{% url 'gift:view_profile' gift.user.username %}">{{gift.user}}</a> at {{gift.created_at}}</h6>
                     <div class="share">
                         <span class='st_facebook_large' displayText='Facebook'></span>
