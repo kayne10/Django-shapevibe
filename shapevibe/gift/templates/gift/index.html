@@ -7,9 +7,9 @@
         <a href="{% url 'gift:view_profile' user.username %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="150" alt="" style="margin-top:-2em; margin-left:-3em; position:fixed; z-index:9"></a><br>
         <!--<h1>Welcome {{user.username}} to Shapevibe!</h1>-->
         <!-- Search Bar to Query users, gifts, and tags -->
-        <button id="searchButton" onclick="revealSearchBar()" style="z-index:9; margin :2em;"><img src="{% static 'gift/img/search.png' %}" alt=""></button>
+        <button id="searchButton" onclick="revealSearchBar()" style="z-index:9;"><img src="{% static 'gift/img/white-search.png' %}" width="80%" alt=""></button>
         <form method="get" role="search" action="{% url 'gift:index' %}" id="indexSearch" style="display:none;">
-            <input type="text" name="q" id="id_q" value="{{ request.GET.q }}" placeholder="Search by username, name, gift title, or tags" style="
+            <input type="text" name="q" id="id_q" value="{{ request.GET.q }}" placeholder="Search gifts and users" style="
                 color:black;
                 width: 70%;
             "/>
@@ -27,21 +27,28 @@
                             <img src="{% static 'gift/img/iconMedium.png' %}" class="img-responsive" alt="">
                         {% endif %}
                         <div class="caption" id="caption">
-                            <!--<h3><a href="{% url 'gift:detail' gift.id %}" data-toggle="modal" data-target="#giftModal">{{gift.gift_title}}</a></h3>-->
-                            <h3><a href="{% url 'gift:detail' gift.id %}">{{gift.gift_title|title}}</a></h3>
+                            <h3><a href="" data-toggle="modal" data-target="#giftModal">{{gift.gift_title|title}}</a></h3>
+                            <!--<h3><a href="{% url 'gift:detail' gift.id %}">{{gift.gift_title|title}}</a></h3>-->
                             <h4>Posted by <a href="{% url 'gift:view_profile' gift.user.username %}">{{gift.user}}</a> at {{gift.created_at}}</h4>
-                            Tags: <ul style="list-style:none; display:flex; justify-content:space-around;">
-                                {% for tag in gift.tags %}
-                                    <li>{{ tag|upper }}</li>
-                                {% endfor %}
-                            </ul>
                         </div>
                     </div>
                 </div>
                 <div class="modal fade" id="giftModal" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content" style="height:auto;">
-
+                            <!--gift modal not working!!!!-->
+                            <div class="modal-body">
+                                <div class="row">
+                                    <!-- gift image block -->
+                                    <div class="col-md-7">
+                                        <h1>test</h1>
+                                    </div>
+                                    <!-- gift info block -->
+                                    <div class="col-md-5">
+                                       <h1>{{ gift.gift_title }}</h1>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -77,11 +84,6 @@
                                     {% else %}
                                         <h4><strong>No name provided</strong></h4>
                                     {% endif %}
-                                    <strong>Tags: </strong><ul style="list-style:none; display:flex; justify-content:space-around;">
-                                        {% for tag in user.profile.tags %}
-                                            <li>{{tag}}</li>
-                                        {% endfor %}
-                                    </ul>
                                 </div>
                             </div>
                         </div>
@@ -100,11 +102,12 @@
             x.style.display = "block";
             x.style.position = "fixed";
             x.style.width = "70%";
-            x.style.height = "10%";
 
+            x.style.display = "flex";
+            x.style.justifyContent = "center";
             x.style.margin = "0 auto";
             x.style.zIndex = "12";
-            y.style.background = "rgba(255,255,255,0.8)";
+
             y.style.zIndex = "9";
             z.style.opacity = "0.2";
         } else {

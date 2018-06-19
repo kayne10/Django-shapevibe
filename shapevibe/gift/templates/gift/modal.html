@@ -1,0 +1,49 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shapevibe{% if gift%} - {{gift.gift_title|title}}{% endif %}</title>
+{% load staticfiles %}
+<link href="https://fonts.googleapis.com/css?family=Chango" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{% static 'gift/style.css' %}"/>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="{% static 'gift/js/main.js' %}"></script>
+
+    <!-- Share this scripts -->
+    <script type="text/javascript">var switchTo5x=true;</script>
+    <script type="text/javascript" id="st_insights_js" src="http://w.sharethis.com/button/buttons.js?publisher=37361ad7-20a5-4bd8-8f47-e2f48ef59fd4"></script>
+    <script type="text/javascript">stLight.options({publisher: "37361ad7-20a5-4bd8-8f47-e2f48ef59fd4", doNotHash: false, doNotCopy: false, hashAddressBar: false});</script>
+{% load static %}
+
+{% block body %}
+<div class="container-fluid">
+    <!--<a href="{% url 'gift:index' %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="100" alt=""></a><br>-->
+    <div class="col-md-10 col-md-offset-1">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel">
+                    {% if gift.gift_image %}
+                        <img src="{{gift.gift_image.url}}" class="img-responsive" alt="">
+                    {% else %}
+                        <img src="{% static 'gift/img/iconMedium.png' %}" alt="">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel">
+                    {% if success_message %}
+                    <div class="alert alert-success">
+                        {{success_message}}
+                    </div>
+                    {% endif %}
+                    <h1><strong>Title:</strong> <span class="gift-value">{{gift.gift_title|title}}</span></h1>
+                    <p>Description: <br> <span class="gift-value">{{gift.gift_description}}</span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

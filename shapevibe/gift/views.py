@@ -37,6 +37,7 @@ def index(request):
             Q(username__contains=query) |
             Q(profile__first_name__iexact=query) |
             Q(profile__last_name__iexact=query) |
+            Q(profile__first_name__iexact=query, profile__last_name__iexact=query) |
             Q(profile__tags__icontains=query)
         ).distinct()
         return render(request, 'gift/index.html', {'gifts': gifts, 'users': users, 'query': query})
@@ -45,6 +46,12 @@ def index(request):
 
 @login_required
 def detail(request, gift_id):
+    user = request.user
+    gift = get_object_or_404(Gift, pk=gift_id)
+    return render(request, 'gift/detail.html', {'gift': gift, 'user': user})
+
+@login_required
+def modal(request, gift_id):
     user = request.user
     gift = get_object_or_404(Gift, pk=gift_id)
     return render(request, 'gift/detail.html', {'gift': gift, 'user': user})
