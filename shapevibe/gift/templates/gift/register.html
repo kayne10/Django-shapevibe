@@ -5,14 +5,14 @@
 
 {% block body %}
 <div class="container-fluid">
-    <div class="panel panel-default">
+    <div class="auth-panel">
         <img src="{% static 'gift/img/iconMedium.png' %}" width="150" alt="">
         <h1>Sign up</h1>
         <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}
-                <p>
-                    {{ field.label_tag }}
+                <p style="color:black;">
+                    <strong style="color:white;">{{ field.label_tag }}</strong>
                     {{ field }}
                     {% if field.help_text %}
                         <small style="display:none">{{ field.help_text }}</small>
@@ -24,9 +24,17 @@
             {% endfor %}
             <button type="submit" class="btn btn-success">Sign up</button>
         </form>
+        <strong>-- OR --</strong><br>
+        <a href="{% url 'social:begin' 'twitter' %}">Login with Twitter</a><br>
+        <a href="{% url 'social:begin' 'facebook' %}">Login with Facebook</a><br>
+        <a href="{% url 'social:begin' 'google-oauth2' %}">Login with Google+</a>
+        <br>
+        <hr>
         <div class="login-footer">
-            Already have an account? <a href="{% url 'gift:login_user' %}">Click here</a> to log in.
+            Already have an account? <a href="{% url 'gift:login_user' %}">Click here</a> to login.
         </div>
+        <hr>
+        <a href="">What is shapevibe?</a>
     </div>
 </div>
 {% endblock %}

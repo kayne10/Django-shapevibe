@@ -12,8 +12,9 @@ class Gift(models.Model):
     gift_title = models.CharField(max_length=250)
     gift_description = models.TextField(max_length=2000)
     gift_image = models.FileField(blank=True)
-    created_at = models.DateField(default=datetime.date.today)
+    created_at = models.DateField(auto_now_add=True)
     tags = ArrayField(models.CharField(max_length=50), blank=True, null=True, default=[])
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.gift_title + ' - ' + self.user.username
@@ -32,7 +33,7 @@ class Profile(models.Model):
     avatar = models.FileField(upload_to='avatars/', blank=True)
     # tags are for Postgres db only
     tags = ArrayField(models.CharField(max_length=50), blank=True, null=True, default=[])
-    user.is_active = True
+    updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.user.username + ': ' + self.first_name + ' ' + self.last_name

@@ -4,94 +4,107 @@
 
 {% block body %}
     <div class="container" style="width:100%;">
+        <!-- shapevibe logo and home/profile logo -->
         <a href="{% url 'gift:index' %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="150" alt=""></a><br>
+        <!-- profile info -->
         <div class="row">
             <!-- Profile info -->
-            <div class="col-sm-6">
-                <div class="panel panel-default">
-                    {% if success_message %}
-                        <div class="alert alert-success">
-                            {{ success_message }}
+            <div class="col-md-10 col-md-offset-1 panel panel-default">
+                <div class="row">
+                    <div class="col-md-5 profile-info">
+                        <div class="panel panel-default">
+                            {% if success_message %}
+                                <div class="alert alert-success">
+                                    {{ success_message }}
+                                </div>
+                            {% endif %}
+                            {% if user.username == profile.username %}
+                                <h2>{{user.username}}</h2>
+                                <h4>Email: {{user.email}}</h4>
+                                <!-- Profile Pic -->
+                                {% if user.profile.avatar %}
+                                    <img src="{{ user.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%">
+                                {% else %}
+                                    <img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px">
+                                {% endif %}
+                                <!-- summary -->
+                                <br>
+                                Name: {{user.profile.first_name}} {{ user.profile.last_name }} <br>
+                                Summary: <p class="profile-summary">{{user.profile.summary}}</p>
+                                <br>
+                                Tags: <ul>
+                                {% for tag in user.profile.tags %}
+                                    <li>{{ tag }}</li>
+                                {% endfor %}
+                                </ul>
+                                <!-- User actions -->
+                                <a href="{% url 'gift:update_profile' %}">Edit Info</a>
+                                <a href="{% url 'gift:delete_user' user.username %}" onclick="return confirm('Are you sure?')">Delete Account</a>
+                                <a href="{% url 'gift:logout_user' %}">Logout</a>
+                            {% else %}
+                                <h2>{{profile.username}}</h2>
+                                <h4>Email: {{profile.email}}</h4>
+                                <!-- Profile Pic -->
+                                {% if profile.profile.avatar %}
+                                    <img src="{{ profile.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%">
+                                {% else %}
+                                    <img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px">
+                                {% endif %}
+                                <!-- summary -->
+                                <br>
+                                Name: {{profile.profile.first_name}} {{ profile.profile.last_name }} <br>
+                                Summary: <p class="profile-summary">{{profile.profile.summary}}</p>
+                                Tags: <ul>
+                                {% for tag in profile.tags %}
+                                    <li>{{tag}}</li>
+                                {% endfor %}
+                                </ul>
+                            {% endif %}
                         </div>
-                    {% endif %}
-                    {% if user.username == profile.username %}
-                        <h2>{{user.username}}</h2>
-                        <h4>Email: {{user.email}}</h4>
-                        <!-- Profile Pic -->
-                        {% if user.profile.avatar %}
-                            <img src="{{ user.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%">
+                    </div>
+                    <!-- List of User's gifts -->
+                    <div class="col-md-5 gift-list">
+                        {% if user.username == profile.username %}
+                            <h1>{{user.username}}'s Gifts</h1>
+                            <a href="{% url 'gift:create_gift' %}">Plus</a>
+                            {% for gift in gifts %}
+                                <div class="well profile-gift-well">
+                                    {% if gift.gift_image %}
+                                        <a href="{% url 'gift:detail' gift.id %}"><img src="{{gift.gift_image.url}}" class="img-responsive" width="100px" alt=""></a>
+                                    {% else %}
+                                        <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/iconMedium.png' %}" alt="" width="100px"></a>
+                                    {% endif %}
+
+                                    {{ gift.gift_title|title }}<br>
+                                    {{ gift.created_at }}<br>
+                                    <a href="{% url 'gift:edit_gift' gift.id %}">Edit</a>
+                                    <a href="{% url 'gift:delete_gift' gift.id %}" onclick="return confirm('Are you sure?')">Delete</a>
+                                </div>
+                            {% endfor %}
                         {% else %}
-                            <img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px">
+                            <h1>{{profile.username}}'s Gifts</h1>
+                            {% for gift in profile_gifts %}
+                                <div class="well profile-gift-well">
+                                    {% if gift.gift_image %}
+                                        <a href="{% url 'gift:detail' gift.id %}"><img src="{{gift.gift_image.url}}" class="img-responsive" width="100px" alt=""></a>
+                                    {% else %}
+                                        <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="100px" alt=""></a>
+                                    {% endif %}
+
+                                    {{ gift.gift_title|title }}<br>
+                                    {{ gift.created_at }}
+                                </div>
+                            {% endfor %}
                         {% endif %}
-                        <!-- summary -->
-                        <br>
-                        Name: {{user.profile.first_name}} {{ user.profile.last_name }} <br>
-                        Summary: <p class="profile-summary">{{user.profile.summary}}</p>
-                        <br>
-                        Tags: <ul>
-                        {% for tag in user.profile.tags %}
-                            <li>{{ tag }}</li>
-                        {% endfor %}
-                        </ul>
-                        <!-- User actions -->
-                        <a href="{% url 'gift:update_profile' %}">Edit Info</a>
-                        <a href="{% url 'gift:delete_user' user.username %}" onclick="return confirm('Are you sure?')">Delete Account</a>
-                        <a href="{% url 'gift:logout_user' %}">Logout</a>
-                    {% else %}
-                        <h2>{{profile.username}}</h2>
-                        <h4>Email: {{profile.email}}</h4>
-                        <!-- Profile Pic -->
-                        {% if profile.profile.avatar %}
-                            <img src="{{ profile.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%">
-                        {% else %}
-                            <img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px">
-                        {% endif %}
-                        <!-- summary -->
-                        <br>
-                        Name: {{profile.profile.first_name}} {{ profile.profile.last_name }} <br>
-                        Summary: <p class="profile-summary">{{profile.profile.summary}}</p>
-                        Tags: <ul>
-                        {% for tag in profile.tags %}
-                            <li>{{tag}}</li>
-                        {% endfor %}
-                        </ul>
-                    {% endif %}
+                    </div>
                 </div>
             </div>
-            <!-- List of User's gifts -->
-            <div class="col-sm-6">
-                {% if user.username == profile.username %}
-                    <h1>{{user.username}}'s Gifts</h1>
-                    <a href="{% url 'gift:create_gift' %}">Plus</a>
-                    {% for gift in gifts %}
-                        <div class="thumbnail post-thumbnail">
-                            {% if gift.gift_image %}
-                                <a href="{% url 'gift:detail' gift.id %}"><img src="{{gift.gift_image.url}}" class="img-responsive" alt=""></a>
-                            {% else %}
-                                <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/iconMedium.png' %}" alt=""></a>
-                            {% endif %}
-                            <br>
-                            {{ gift.gift_title|title }}<br>
-                            {{ gift.created_at }}<br>
-                            <a href="{% url 'gift:edit_gift' gift.id %}">Edit</a>
-                            <a href="{% url 'gift:delete_gift' gift.id %}" onclick="return confirm('Are you sure?')">Delete</a>
-                        </div>
-                    {% endfor %}
-                {% else %}
-                    <h1>{{profile.username}}'s Gifts</h1>
-                    {% for gift in profile_gifts %}
-                        <div class="thumbnail post-thumbnail">
-                            {% if gift.gift_image %}
-                                <a href="{% url 'gift:detail' gift.id %}"><img src="{{gift.gift_image.url}}" class="img-responsive" alt=""></a>
-                            {% else %}
-                                <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/iconMedium.png' %}" alt=""></a>
-                            {% endif %}
-                            <br>
-                            {{ gift.gift_title|title }}<br>
-                            {{ gift.created_at }}
-                        </div>
-                    {% endfor %}
-                {% endif %}
+        </div>
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1 controller">
+                <a href=""><img src="{% static 'gift/img/home.png' %}" alt=""></a>
+                <a href=""><img src="{% static 'gift/img/home.png' %}" alt=""></a>
+                <a href=""><img src="{% static 'gift/img/home.png' %}" alt=""></a>
             </div>
         </div>
     </div>

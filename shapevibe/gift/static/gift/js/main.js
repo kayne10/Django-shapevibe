@@ -26,3 +26,12 @@ $(document).ready(function() {
 	AlbumsListPage.init();
 	SongsListPage.init();
 });
+
+function revealSearchBar() {
+    var x = document.getElementById("indexSearch");
+    if (x.style.display === 'none'){
+        x.style.display = "block";
+    } else {
+        x.style.display = "none";
+    }
+}

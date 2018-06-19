@@ -81,6 +81,8 @@ TEMPLATES = [
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.open_id.OpenIdAuth',  # for Google authentication
+    'social_core.backends.google.GoogleOpenId',  # for Google authentication
     'social.backends.google.GoogleOAuth2',
 
     'django.contrib.auth.backends.ModelBackend',
@@ -154,7 +156,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+# STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_DIRS = (
+    os.path.join(BASE_DIR, 'static'),
+)
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
@@ -162,7 +167,7 @@ MEDIA_URL = '/media/'
 
 # Login/Logout Redirects
 LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/gifts/'
+LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT = '/login/'
 
 
@@ -173,6 +178,13 @@ SOCIAL_AUTH_TWITTER_SECRET = data['twitterSecret']
 SOCIAL_AUTH_FACEBOOK_KEY = data['facebookID']
 SOCIAL_AUTH_FACEBOOK_SECRET = data['facebookSecret']
 
+# Google+ SignIn (google-plus)
+SOCIAL_AUTH_GOOGLE_PLUS_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = [
+'https://www.googleapis.com/auth/plus.login',
+'https://www.googleapis.com/auth/userinfo.email',
+'https://www.googleapis.com/auth/userinfo.profile'
+]
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = data['googleClientID']
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = data['googleSecret']
 

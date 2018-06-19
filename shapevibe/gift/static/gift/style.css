@@ -5,6 +5,7 @@ html {
 
 body {
     background: url('img/indexBackground.png');
+    font-family: 'Chango';
 }
 
 .container-fluid {
@@ -32,9 +33,24 @@ body {
 }
 
 /* inputs */
-#id_username, #id_password, #id_q {
-    color: black;
+inputs {
+    color:black;
 }
+
+#id_username, #id_password, #id_q, #id_email, #id_password1, #id_password2 {
+    color: black;
+    width:50%;
+    border-radius:5px;
+}
+
+input[type=text]:focus, textarea:focus {
+  box-shadow: 0 0 5px rgba(81, 203, 238, 1);
+  padding: 3px 0px 3px 3px;
+  margin: 5px 1px 3px 0px;
+  border: 1px solid rgba(81, 203, 238, 1);
+}
+
+/****** Index.html ******/
 
 #id_q {
     color: black;
@@ -42,8 +58,26 @@ body {
 .caption {
     display: none;
 }
-.thumbnail {
+
+#searchButton {
+    position: fixed;
+    top:15%;
+    left:0;
+    background: transparent;
     border: none;
+}
+#searchButton:active {
+    border: none;
+}
+
+#giftWrapper {
+    width: 100%;
+    height 100vh;
+
+}
+
+.thumbnail {
+    border: solid 1px white;
     background-color: transparent;
 }
 .post-thumbnail {
@@ -55,6 +89,7 @@ body {
 }
 .post-thumbnail img {
     width:100%;
+    height:100%;
 }
 
 .post-thumbnail:hover .caption {
@@ -74,8 +109,19 @@ body {
     height: 600px;
 }
 
+/****** Profile.html  ******/
+
+.profile-section {
+    height:60vh;
+}
+
 .profile-summary {
     white-space: pre-wrap;
+}
+
+.profile-gift-well {
+    height: 9em;
+    display:flex;
 }
 
 footer {

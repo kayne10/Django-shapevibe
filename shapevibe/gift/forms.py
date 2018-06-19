@@ -6,6 +6,9 @@ from django.contrib.auth.models import User
 from .models import Gift, Profile
 
 class GiftForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(GiftForm, self).__init__(*args, **kwargs)
+        self.fields['tags'].label = 'Tags: *Separate each value with comma. 5 max.'
 
     class Meta:
         model = Gift
@@ -20,6 +23,9 @@ class UserForm(forms.ModelForm):
         fields = ('username', 'email')
 
 class ProfileForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['tags'].label = 'Tags: *Separate each value with comma. 5 max.'
 
     class Meta:
         model = Profile
@@ -31,3 +37,6 @@ class SignupForm(UserCreationForm):
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
+        widgets = {
+            'email': forms.TextInput(attrs={'class': 'auth-input'}),
+        }

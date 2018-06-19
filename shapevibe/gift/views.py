@@ -39,7 +39,7 @@ def index(request):
             Q(profile__last_name__iexact=query) |
             Q(profile__tags__icontains=query)
         ).distinct()
-        return render(request, 'gift/index.html', {'gifts':gifts, 'users': users})
+        return render(request, 'gift/index.html', {'gifts': gifts, 'users': users, 'query': query})
     else:
         return render(request, 'gift/index.html', {'user': user, 'gifts': gifts})
 
