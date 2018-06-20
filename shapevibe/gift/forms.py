@@ -8,11 +8,12 @@ from .models import Gift, Profile
 class GiftForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(GiftForm, self).__init__(*args, **kwargs)
+        self.fields['price'].label = 'Price: Leave blank if gift is free.'
         self.fields['tags'].label = 'Tags: *Separate each value with comma. 5 max.'
 
     class Meta:
         model = Gift
-        fields = ['gift_title', 'gift_description', 'gift_image', 'tags']
+        fields = ['gift_title', 'gift_description', 'gift_image', 'price', 'tags']
 
 
 class UserForm(forms.ModelForm):

@@ -12,6 +12,7 @@ class Gift(models.Model):
     gift_title = models.CharField(max_length=250)
     gift_description = models.TextField(max_length=2000)
     gift_image = models.FileField(blank=True)
+    price = models.IntegerField(blank=True, null=True)
     created_at = models.DateField(auto_now_add=True)
     tags = ArrayField(models.CharField(max_length=50), blank=True, null=True, default=[])
     updated_at = models.DateTimeField(auto_now=True)

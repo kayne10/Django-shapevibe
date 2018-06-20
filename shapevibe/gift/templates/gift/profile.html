@@ -9,66 +9,24 @@
         <!-- profile info -->
         <div class="row">
             <!-- Profile info -->
-            <div class="col-md-10 col-md-offset-1 panel panel-default">
-                <div class="row">
-                    <div class="col-md-5 profile-info">
-                        <div class="panel panel-default">
-                            {% if success_message %}
-                                <div class="alert alert-success">
-                                    {{ success_message }}
-                                </div>
-                            {% endif %}
-                            {% if user.username == profile.username %}
-                                <h2>{{user.username}}</h2>
-                                <h4>Email: {{user.email}}</h4>
-                                <!-- Profile Pic -->
-                                {% if user.profile.avatar %}
-                                    <img src="{{ user.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%">
-                                {% else %}
-                                    <img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px">
-                                {% endif %}
-                                <!-- summary -->
-                                <br>
-                                Name: {{user.profile.first_name}} {{ user.profile.last_name }} <br>
-                                Summary: <p class="profile-summary">{{user.profile.summary}}</p>
-                                <br>
-                                Tags: <ul>
-                                {% for tag in user.profile.tags %}
-                                    <li>{{ tag }}</li>
-                                {% endfor %}
-                                </ul>
-                                <!-- User actions -->
-                                <a href="{% url 'gift:update_profile' %}">Edit Info</a>
-                                <a href="{% url 'gift:delete_user' user.username %}" onclick="return confirm('Are you sure?')">Delete Account</a>
-                                <a href="{% url 'gift:logout_user' %}">Logout</a>
-                            {% else %}
-                                <h2>{{profile.username}}</h2>
-                                <h4>Email: {{profile.email}}</h4>
-                                <!-- Profile Pic -->
-                                {% if profile.profile.avatar %}
-                                    <img src="{{ profile.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%">
-                                {% else %}
-                                    <img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px">
-                                {% endif %}
-                                <!-- summary -->
-                                <br>
-                                Name: {{profile.profile.first_name}} {{ profile.profile.last_name }} <br>
-                                Summary: <p class="profile-summary">{{profile.profile.summary}}</p>
-                                Tags: <ul>
-                                {% for tag in profile.tags %}
-                                    <li>{{tag}}</li>
-                                {% endfor %}
-                                </ul>
-                            {% endif %}
-                        </div>
-                    </div>
+            <div class="col-md-8 col-md-offset-2 panel panel-default">
+                <div class="row" id="profileWrapper">
                     <!-- List of User's gifts -->
-                    <div class="col-md-5 gift-list">
+                    <div class="col-md-4 gift-list" style="
+                        height: 500px;
+                        width:450px;
+                        overflow-x:scroll;
+                        display:block;
+                        ">
                         {% if user.username == profile.username %}
                             <h1>{{user.username}}'s Gifts</h1>
                             <a href="{% url 'gift:create_gift' %}">Plus</a>
                             {% for gift in gifts %}
-                                <div class="well profile-gift-well">
+                                <div class="well profile-gift-well" style="
+                                    height: 9em;
+                                    display: flex;
+                                    width: 90%;
+                                    margin: 0 auto;">
                                     {% if gift.gift_image %}
                                         <a href="{% url 'gift:detail' gift.id %}"><img src="{{gift.gift_image.url}}" class="img-responsive" width="100px" alt=""></a>
                                     {% else %}
@@ -96,6 +54,47 @@
                                 </div>
                             {% endfor %}
                         {% endif %}
+                    </div>
+                    <div class="col-md-4 profile-info">
+
+                            {% if success_message %}
+                                <div class="alert alert-success">
+                                    {{ success_message }}
+                                </div>
+                            {% endif %}
+                            {% if user.username == profile.username %}
+                                <h2>{{user.username}}</h2>
+                                <h4>Email: {{user.email}}</h4>
+                                <!-- Profile Pic -->
+                                {% if user.profile.avatar %}
+                                    <img src="{{ user.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%">
+                                {% else %}
+                                    <img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px">
+                                {% endif %}
+                                <!-- summary -->
+                                <br>
+                                Name: {{user.profile.first_name}} {{ user.profile.last_name }} <br>
+                                Summary: <p class="profile-summary">{{user.profile.summary}}</p>
+                                <br>
+                                <!-- User actions -->
+                                <a href="{% url 'gift:update_profile' %}">Edit Info</a>
+                                <a href="{% url 'gift:delete_user' user.username %}" onclick="return confirm('Are you sure?')">Delete Account</a>
+                                <a href="{% url 'gift:logout_user' %}">Logout</a>
+                            {% else %}
+                                <h2>{{profile.username}}</h2>
+                                <h4>Email: {{profile.email}}</h4>
+                                <!-- Profile Pic -->
+                                {% if profile.profile.avatar %}
+                                    <img src="{{ profile.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%">
+                                {% else %}
+                                    <img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px">
+                                {% endif %}
+                                <!-- summary -->
+                                <br>
+                                Name: {{profile.profile.first_name}} {{ profile.profile.last_name }} <br>
+                                Summary: <p class="profile-summary">{{profile.profile.summary}}</p>
+                            {% endif %}
+
                     </div>
                 </div>
             </div>

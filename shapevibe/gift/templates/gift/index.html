@@ -9,17 +9,18 @@
         <!-- Search Bar to Query users, gifts, and tags -->
         <button id="searchButton" onclick="revealSearchBar()" style="z-index:9;"><img src="{% static 'gift/img/white-search.png' %}" width="80%" alt=""></button>
         <form method="get" role="search" action="{% url 'gift:index' %}" id="indexSearch" style="display:none;">
-            <input type="text" name="q" id="id_q" value="{{ request.GET.q }}" placeholder="Search gifts and users" style="
+            <input type="text" name="q" id="id_q" value="{{ request.GET.q }}" placeholder="Search" style="
                 color:black;
                 width: 70%;
             "/>
             <button type="submit" class="btn btn-primary">Go!</button>
         </form>
+
         {% if gifts %}
             <div class="row" id="giftWrapper">
             {% for gift in gifts %}
-                <div class="col-sm-6 col-md-4 gift-item">
-                    <div class="post-thumbnail">
+                <div class="col-sm-6 col-md-3 col-lg-3 post-thumbnail">
+
                         <!-- If else statement with default img or uploaded img -->
                         {% if gift.gift_image %}
                             <img src="{{ gift.gift_image.url }}" class="img-responsive" alt="">
@@ -27,28 +28,36 @@
                             <img src="{% static 'gift/img/iconMedium.png' %}" class="img-responsive" alt="">
                         {% endif %}
                         <div class="caption" id="caption">
-                            <h3><a href="" data-toggle="modal" data-target="#giftModal">{{gift.gift_title|title}}</a></h3>
+                            <h4><a href="{% url 'gift:modal' gift.id %}" data-toggle="modal" data-target="#giftModal{{gift.id}}" style="
+                                color:white;
+                                ">{{gift.gift_title|title}}</a></h4>
                             <!--<h3><a href="{% url 'gift:detail' gift.id %}">{{gift.gift_title|title}}</a></h3>-->
-                            <h4>Posted by <a href="{% url 'gift:view_profile' gift.user.username %}">{{gift.user}}</a> at {{gift.created_at}}</h4>
+                            <h4><a href="{% url 'gift:view_profile' gift.user.username %}" style="
+                                color:white;
+                                ">{{gift.user}}</a></h4>
+                            {% if gift.price %}
+                                <h4>${{gift.price}}</h4>
+                            {% else %}
+                                <h4>Free</h4>
+                            {% endif %}
                         </div>
-                    </div>
+
                 </div>
-                <div class="modal fade" id="giftModal" tabindex="-1" role="dialog" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content" style="height:auto;">
-                            <!--gift modal not working!!!!-->
-                            <div class="modal-body">
-                                <div class="row">
-                                    <!-- gift image block -->
-                                    <div class="col-md-7">
-                                        <h1>test</h1>
-                                    </div>
-                                    <!-- gift info block -->
-                                    <div class="col-md-5">
-                                       <h1>{{ gift.gift_title }}</h1>
-                                    </div>
-                                </div>
-                            </div>
+                <div class="modal fade" id="giftModal{{gift.id}}" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog" style="
+                        width: 80%;
+                        height: auto;
+                        margin: 0 auto;
+                        margin-top: 6em;
+                        padding: 3em 0;
+                        background: rgb(0,0,0);
+                        ">
+                        <div class="modal-content" style="
+                           height: auto;
+                           min-height: 100%;
+                           border-radius: 0;
+                           background: rgb(0,0,0);">
+
                         </div>
                     </div>
                 </div>
@@ -97,23 +106,23 @@
     function revealSearchBar() {
         var x = document.getElementById("indexSearch");
         var y = document.getElementById("container");
-        var z = document.getElementsByClassName("img-responsive");
+        var z = document.getElementById("id_q")
         if (x.style.display === 'none'){
             x.style.display = "block";
             x.style.position = "fixed";
             x.style.width = "70%";
-
             x.style.display = "flex";
             x.style.justifyContent = "center";
             x.style.margin = "0 auto";
             x.style.zIndex = "12";
-
+            x.style.clear = "left";
+            x.style.textAlign = "center";
             y.style.zIndex = "9";
-            z.style.opacity = "0.2";
+            z.style.border = "solid 2px grey";
+            z.style.fontSize = "1.5em";
         } else {
             x.style.display = "none";
             y.style.background = "black";
-            z.style.background = "transparent";
         }
     }
 </script>
