@@ -3,17 +3,42 @@
 {% load static %}
 
 {% block body %}
-<div class="container-fluid">
-    {% if error_message %}
-        <div class="alert alert-danger">
-            {{ error_message }}
+<div class="container" style="width:100%;">
+    <div class="col-sm-9 col-md-8 col-md-offset-2 panel panel-default" style="margin-top:2em;">
+        <div class="edit-n-create" style="padding:1em 2em;">
+            <h1>Edit Profile</h1>
+            {% if error_message %}
+                <div class="alert alert-danger">
+                    {{ error_message }}
+                </div>
+            {% endif %}
+            <form class="horizontal-form" method="post" role="form" enctype="multipart/form-data">
+                {% csrf_token %}
+                {% for field in user_form %}
+                    <div class="form-group">
+                        <div class="gift-value">
+                            {{ field.label }}
+                        </div>
+                        <div class="gift-value">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+                {% for field in profile_form %}
+                    <div class="form-group">
+                        <div class="gift-value">
+                            {{ field.label }}
+                        </div>
+                        <div class="gift-value">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+                <!--{{ user_form.as_p }}-->
+                <!--{{ profile_form.as_p }}-->
+                <button class="btn btn-primary" type="submit">Save changes</button>
+            </form>
         </div>
-    {% endif %}
-    <form class="horizontal-form" method="post" role="form" enctype="multipart/form-data">
-        {% csrf_token %}
-        {{ user_form.as_p }}
-        {{ profile_form.as_p }}
-        <button type="submit">Save changes</button>
-    </form>
+    </div>
 </div>
 {% endblock %}

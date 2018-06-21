@@ -1,0 +1,27 @@
+{% extends 'gift/base_visitor.html' %}
+{% block title %}About Shapevibe{% endblock %}
+{% load static %}
+
+
+{% block body %}
+
+<div class="container-fluid">
+  <div class="col-sm-6 col-sm-offset-3 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+
+        <div class="auth-panel">
+            <img src="{% static 'gift/img/iconMedium.png' %}" width="150px" style="text-align:center;" alt="">
+            <p class="gift-value">Shapevibe is a place to connect, collaborate,
+              and share your gifts and talents with the world.</p>
+            <p style="font-size: 1.5em;">It's easy. It's fun. It's time-saving</p>
+            <p class="gift-value">It's your own special place on the web that connects
+               your digital life. Think of it as a play/workbench, a "plorkbench".</p>
+            <p class="gift-value">Shapevibe makes giving and selling homemade goods and services
+               a blast. Connect your social accounts, connect your cloud storages, and
+              collaborate on projects like never before.</p>
+            <a href="{% url 'gift:register' %}"><button type="button" class="btn btn-primary">got it</button></a>
+        </div>
+
+  </div>
+</div>
+
+{% endblock %}

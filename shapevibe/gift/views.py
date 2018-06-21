@@ -20,6 +20,10 @@ IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
 
 
 # Create your views here.
+def about(request):
+    return render(request, 'gift/about.html')
+
+
 @login_required
 def index(request):
     user = request.user

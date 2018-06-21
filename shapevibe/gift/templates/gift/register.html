@@ -11,16 +11,12 @@
         <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}
-                <p style="color:black;">
-                    <strong style="color:white;">{{ field.label_tag }}</strong>
-                    {{ field }}
-                    {% if field.help_text %}
-                        <small style="display:none">{{ field.help_text }}</small>
-                    {% endif %}
-                    {% for error in field.errors %}
-                        <p style="color:red">{{ error }}</p>
-                    {% endfor %}
-                </p>
+               <div class="form-group sm" style="text-align:center;">
+
+                   {{ field.label_tag }}
+
+                   {{ field }}
+               </div>
             {% endfor %}
             <button type="submit" class="btn btn-success">Sign up</button>
         </form>
@@ -34,7 +30,7 @@
             Already have an account? <a href="{% url 'gift:login_user' %}">Click here</a> to login.
         </div>
         <hr>
-        <a href="">What is shapevibe?</a>
+        <a href="{% url 'about' %}">What is shapevibe?</a>
     </div>
 </div>
 {% endblock %}

@@ -3,36 +3,35 @@
 {% load static %}
 
 {% block body %}
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm-12 col-md-7">
-            <div class="panel panel-default">
-                <div class="panel-body">
-                    <h3>Add a New Gift</h3>
-                    {% if error_message %}
-                        <div class="alert alert-danger">
-                            {{ error_message }}
-                        </div>
-                    {% endif %}
-                    <form class="form-horizontal" action="" role="form" method="post" enctype="multipart/form-data" id="gift_form">
-                        {% csrf_token %}
-                        {% for field in form %}
-                            <div class="form-group">
-                                <div class="gift-value">
-                                    {{ field.label }}
-                                </div>
-                                {{ field }}
-                            </div>
-                        {% endfor %}
-                        <!--{{ form.as_p }}-->
-                        <div class="form-group">
-                            <button type="submit" class="btn btn-success">Submit</button>
-                        </div>
-                    </form>
+<div class="container" style="width:100%;">
+
+    <div class="col-sm-9 col-md-8 col-md-offset-2 panel panel-default" style="margin-top:2em;">
+        <div class="edit-n-create" style="padding:1em 2em;">
+            <h3>Add a New Gift</h3>
+            {% if error_message %}
+                <div class="alert alert-danger">
+                    {{ error_message }}
                 </div>
-            </div>
+            {% endif %}
+            <form class="form-horizontal" action="" role="form" method="post" enctype="multipart/form-data" id="gift_form">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        {{ field.label }}
+                        <div class="gift-value">
+                            {{ field }}
+                        </div>
+                    </div>
+                {% endfor %}
+                <!--{{ form.as_p }}-->
+                <div class="form-group">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                </div>
+            </form>
         </div>
+
     </div>
+
 </div>
 {% endblock %}
 

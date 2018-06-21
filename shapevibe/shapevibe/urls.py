@@ -17,11 +17,13 @@ from django.conf.urls import url, include
 from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
+from gift import views
 
 urlpatterns = [
     url('admin/', admin.site.urls),
     url(r'^gifts/', include('gift.urls')),
     url(r'^', include('gift.urls')),
+    url(r'^about/$', views.about, name='about'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
 ]
 

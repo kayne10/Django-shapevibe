@@ -9,7 +9,9 @@
         <img src="{% static 'gift/img/viberTool.png' %}" style="text-align:center" width="150px" alt="">
         <h1>Log in</h1>
         {% if error_message %}
-            <p><strong>{{ error_message }}</strong></p>
+            <div class="alert alert-danger">
+                <div class="gift-value">{{ error_message }}</div>
+            </div>
         {% endif %}
         <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data" style="margin: 0 auto;">
             {% csrf_token %}
@@ -53,7 +55,7 @@
             Don't have an account? <a href="{% url 'gift:register' %}">Click here</a> to register.
         </div>
         <hr>
-        <a href="">What is shapevibe?</a>
+        <a href="{% url 'about' %}">What is shapevibe?</a>
     </div>
 </div>
 {% endblock %}

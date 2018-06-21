@@ -32,7 +32,6 @@ class Profile(models.Model):
     last_name = models.CharField(max_length=20, blank=True)
     summary = models.TextField(max_length=500, blank=True)
     avatar = models.FileField(upload_to='avatars/', blank=True)
-    # tags are for Postgres db only
     tags = ArrayField(models.CharField(max_length=50), blank=True, null=True, default=[])
     updated_at = models.DateTimeField(auto_now=True)
 

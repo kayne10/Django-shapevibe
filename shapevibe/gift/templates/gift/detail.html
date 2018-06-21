@@ -3,16 +3,16 @@
 {% load static %}
 
 {% block body %}
-<div class="container-fluid">
+<div class="container" style="width:100%;">
     <a href="{% url 'gift:index' %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="100" alt=""></a><br>
     <div class="col-md-10 col-md-offset-1">
         <div class="row">
-            <div class="col-md-8">
+            <div class="col-md-6">
                 <div class="panel">
                     {% if gift.gift_image %}
                         <img src="{{gift.gift_image.url}}" class="img-responsive" alt="">
                     {% else %}
-                        <img src="{% static 'gift/img/iconMedium.png' %}" alt="">
+                        <img src="{% static 'gift/img/shapeVibe-Logo.png' %}" width="550px" alt="">
                     {% endif %}
                 </div>
             </div>
