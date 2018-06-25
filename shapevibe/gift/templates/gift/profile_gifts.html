@@ -10,14 +10,14 @@
         <!-- profile info -->
         <div class="row">
             <!-- Profile info -->
-            <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 panel panel-default">
+            <div class="col-xs-10 col-xs-offset-1 col-sm-8 col-sm-offset-2 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 panel panel-default">
                 <div class="row" id="profileWrapper">
                     <!-- List of User's gifts -->
-                    <div class="col-sm-5 col-md-5 col-lg-4 gift-list" id="giftList" style="
+                    <div class="gift-list" style="
                         height: 500px;
                         width:auto;
                         overflow-x:scroll;
-                        display:none;
+                        display:block;
                         ">
                         {% if user.username == profile.username %}
                             <h1>{{user.username}}'s Gifts</h1>
@@ -68,79 +68,24 @@
                             {% endfor %}
                         {% endif %}
                     </div>
-                    <div class="col-sm-5 col-md-5 col-lg-4 profile-info" id="profileInfo" style="width:auto;">
-
-                            {% if success_message %}
-                                <div class="alert alert-success">
-                                    <span class="gift-value">{{ success_message }}</span>
-                                </div>
-                            {% endif %}
-                            {% if user.username == profile.username %}
-                                <h2>{{user.username}}</h2>
-                                <h4>Email: <span class="gift-value">{{user.email}}</span></h4>
-                                <!-- Profile Pic -->
-                                {% if user.profile.avatar %}
-                                    <img src="{{ user.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%">
-                                {% else %}
-                                    <img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px">
-                                {% endif %}
-                                <!-- summary -->
-                                <br>
-                                Name: <span class="gift-value">{{user.profile.first_name}} {{ user.profile.last_name }}</span><br>
-                                Summary: <p class="profile-summary gift-value">{{user.profile.summary}}</p>
-                                <br>
-                                <!-- User actions -->
-                                <a href="{% url 'gift:update_profile' %}">Edit Profile</a>
-                                <!--<a href="{% url 'gift:delete_user' user.username %}" onclick="return confirm('Are you sure?')">Delete Account</a>-->
-                            {% else %}
-                                <h2>{{profile.username}}</h2>
-                                <h4>Email: <span class="gift-value">{{profile.email}}</span></h4>
-                                <!-- Profile Pic -->
-                                {% if profile.profile.avatar %}
-                                    <img src="{{ profile.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%">
-                                {% else %}
-                                    <img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px">
-                                {% endif %}
-                                <!-- summary -->
-                                <br>
-                                Name: <span class="gift-value">{{profile.profile.first_name}} {{ profile.profile.last_name }}</span><br>
-                                Summary: <p class="profile-summary gift-value">{{profile.profile.summary}}</p>
-                            {% endif %}
-
-                    </div>
                 </div>
             </div>
         </div>
-        <div class="controller">
-
+        <div class="row">
+            <div class="col-xs-10 col-sm-10 col-md-10 col-md-offset-1 controller" style="">
                 <a href="{% url 'gift:view_profile' user.username %}"><img src="{% static 'gift/img/home.png' %}" alt=""></a>
                 <a href=""><img class="unavailable-content" src="{% static 'gift/img/friends.png' %}" alt=""></a>
-
-                <button onclick="showAllGifts()" style="background:transparent;border:none;"><img src="{% static 'gift/img/gift.png' %}" alt=""></button>
-
-
+                {% if user.username == profile.username %}
+                    <a href="{% url 'gift:view_profile_gifts' user.username %}"><img src="{% static 'gift/img/gift.png' %}" alt=""></a>
+                {% else %}
+                    <a href="{% url 'gift:view_profile_gifts' profile.username %}"><img src="{% static 'gift/img/gift.png' %}" alt=""></a>
+                {% endif %}
                 <a href=""><img class="unavailable-content" src="{% static 'gift/img/heart.png' %}" alt=""></a>
                 <a href=""><img class="unavailable-content" src="{% static 'gift/img/star.png' %}" alt=""></a>
                 <a href=""><img class="unavailable-content" src="{% static 'gift/img/cloud.png' %}" alt=""></a>
                 <a href=""><img class="unavailable-content" src="{% static 'gift/img/wrench.png' %}" alt=""></a>
-
+            </div>
         </div>
     </div>
-
-<script>
-    //use in-line js for controller actions on showing specific content
-    function showAllGifts() {
-        var x = document.getElementById("profileInfo");
-        var y = document.getElementById("giftList");
-
-        if (y.style.display === 'none'){
-            y.style.display = 'block';
-            x.style.display = 'none';
-        } else {
-            y.style.display = 'none';
-            x.style.display = 'block';
-        }
-    }
-</script>
 
 {% endblock %}

@@ -1,3 +1,4 @@
+/* Universal */
 html {
     background:black;
     color: white;
@@ -31,6 +32,11 @@ body {
     margin: 4em 2em;
     border-radius: 20px;
 }
+
+.gift-value {
+    font-family: 'Futura-Medium';
+}
+
 
 /* inputs */
 inputs {
@@ -161,9 +167,10 @@ modal-dialog {
 }
 
 /****** Profile.html  ******/
-
-.profile-section {
-    height:60vh;
+.profile-info {
+    over-flow-x: scroll;
+    height: 500px;
+    width: auto;
 }
 
 .profile-summary {
@@ -171,10 +178,15 @@ modal-dialog {
 }
 
 .profile-gift-well {
-    height: 9em;
-    display:flex;
-    width:  50%;
+    height: auto;
+    display: flex;
+    width: auto;
     margin:  0 auto;
+    justify-content: space-around;
+}
+
+.profile-gift-well-caption {
+    display: block;
 }
 
 .gift-list {
@@ -183,10 +195,21 @@ modal-dialog {
     width: 100%;
 }
 
-.gift-value {
-    font-family: 'Futura-Medium';
+.controller {
+    background:black;
+    width: auto;
+    display: flex;
+    justify-content: space-between;
 }
 
+.unavailable-content {
+    opacity: 0.4;
+}
+.unavailable-content:hover {
+    cursor: not-allowed;
+}
+
+/* Footer */
 footer {
     background: black;
     color: white;

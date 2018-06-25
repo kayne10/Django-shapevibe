@@ -50,15 +50,15 @@ def index(request):
 
 @login_required
 def detail(request, gift_id):
-    user = request.user
+    # user = request.user
     gift = get_object_or_404(Gift, pk=gift_id)
-    return render(request, 'gift/detail.html', {'gift': gift, 'user': user})
+    return render(request, 'gift/detail.html', {'gift': gift})
 
 @login_required
 def modal(request, gift_id):
-    user = request.user
+    # user = request.user
     gift = get_object_or_404(Gift, pk=gift_id)
-    return render(request, 'gift/modal.html', {'gift': gift, 'user': user})
+    return render(request, 'gift/modal.html', {'gift': gift})
 
 # CREATE, UPDATE, DELETE GIFT
 @login_required
@@ -130,14 +130,35 @@ def delete_gift(request, gift_id):
 def view_profile(request, username):
     user = request.user
     profile = User.objects.get(username=username)
-    gifts_posted_by_user = Gift.objects.filter(user=user)
-    gifts_by_viewed_user = Gift.objects.filter(user=profile)
+    gifts_posted_by_user = Gift.objects.filter(user=user).order_by('-id')
+    gifts_by_viewed_user = Gift.objects.filter(user=profile).order_by('-id')
+    if gifts_posted_by_user.count() > 0:
+        last_gift = gifts_posted_by_user[0]
+    if gifts_by_viewed_user.count() > 0:
+        last_gift = gifts_by_viewed_user[0]
+    # The if/else statement could be easier to render in template
+    # else: No gifts yet, please create your first gift
     return render(request, 'gift/profile.html', {
                                                     'user': user,
                                                     'profile': profile,
                                                     'gifts': gifts_posted_by_user,
                                                     'profile_gifts': gifts_by_viewed_user,
+                                                    'last_gift': last_gift,
                                                 })
+
+# @login_required
+# def view_profile_gifts(request, username):
+#     user = request.user
+#     profile = User.objects.get(username=username)
+#     gifts_posted_by_user = Gift.objects.filter(user=user).order_by('-id')
+#     gifts_by_viewed_user = Gift.objects.filter(user=profile).order_by('-id')
+#     return render(request, 'gift/profile_gifts.html', {
+#                                                         'user': user,
+#                                                         'profile': profile,
+#                                                         'gifts': gifts_posted_by_user,
+#                                                         'profile_gifts': gifts_by_viewed_user,
+#                                                         })
+
 
 @login_required
 def update_profile(request):
@@ -172,16 +193,17 @@ def update_profile(request):
             }
             return render(request, 'gift/edit_profile.html', context)
     else:
-        user_form = UserForm(instance=request.user)
-        profile_form = ProfileForm(instance=request.user.profile)
-    return render(request, 'gift/edit_profile.html', {'user_form': user_form,'profile_form': profile_form})
+        user = request.user
+        user_form = UserForm(instance=user)
+        profile_form = ProfileForm(instance=user.profile)
+    return render(request, 'gift/edit_profile.html', {'user': user, 'user_form': user_form,'profile_form': profile_form})
 
 @login_required
 def delete_user(request, username):
     try:
         user = User.objects.get(username=username)
         user.delete()
-        return render(request, 'gift/delete.html', {'success_message': 'You succesfully deleted your account.'})
+        return render(request, 'gift/delete.html', {'success_message': 'You Successfully deleted your account.'})
     except:
         error_message = 'Something went wrong.'
     return render(request, 'gift/delete.html', {'error_message': error_message})

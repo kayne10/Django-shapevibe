@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^logout/$', views.logout_user, name='logout_user'),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.activate, name='activate'),
     url(r'^profile/(?P<username>[\w|\W.-]+)/$', views.view_profile, name='view_profile'),
+    # url(r'^(?P<username>[\w|\W.-]+)/$', views.view_profile_gifts, name='view_profile_gifts'),
     url(r'^profile/edit$', views.update_profile, name='update_profile'),
     url(r'^delete_user/(?P<username>[\w|\W.-]+)/$', views.delete_user, name='delete_user'),
     url(r'^(?P<gift_id>[0-9]+)/modal/$', views.modal, name='modal'),
