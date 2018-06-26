@@ -6,14 +6,31 @@
 
         <div class="modal-content" style="height:auto;background:rgb(0,0,0);">
             <div class="row">
-                <div class="col-md-7 modal-thumbnail">
+                <div class="col-sm-8 col-md-7 modal-thumbnail">
                         {% if gift.gift_image %}
-                            <img src="{{ gift.gift_image.url }}" class="img-responsive" alt="">
+                            <img src="{{ gift.gift_image.url }}" class="img-responsive" width="800px" alt="">
                         {% else %}
-                            <img src="{% static 'gift/img/shapeVibe-Logo.png' %}" class="img-responsive" alt="">
+                            {% if gift.gift_audio %}
+                                <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" alt="">
+                            {% else %}
+                                <img src="{% static 'gift/img/shapeVibe-Logo.png' %}" class="img-responsive" alt="">
+                            {% endif %}
+                        {% endif %}
+                        {% if gift.gift_audio %}
+                            <audio controls>
+                                <source src="{{ gift.gift_audio.url }}"
+                                        {% if audio_file_type == 'mp3' %}
+                                            type="audio/mpeg"
+                                        {% elif audio_file_type == 'ogg' %}
+                                            type="audio/ogg"
+                                        {% else %}
+                                            type="audio/wav"
+                                        {% endif %}
+                                >
+                            </audio>
                         {% endif %}
                 </div>
-                <div class="col-md-5 modal-thumbnail">
+                <div class="col-sm-4 col-md-5 modal-thumbnail">
                     <p><span class="gift-value" style="white-space: pre-wrap; font-size:1.25em;">{{gift.gift_description}}</span></p><br>
                     <div class="modal-caption">
                         <a href="{% url 'gift:detail' gift.id %}"><span class="gift-value" style="color:white;">{{gift.gift_title}}</span></a><br>
@@ -28,5 +45,14 @@
             </div>
         </div>
 
+        <script>
+            $(function(){
+                $("audio").on("play", function() {
+                    $("audio").not(this).each(function(index, audio) {
+                        audio.pause();
+                    });
+                });
+            });
+        </script>
 
 {% endblock %}

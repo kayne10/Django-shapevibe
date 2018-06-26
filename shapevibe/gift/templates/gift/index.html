@@ -25,7 +25,11 @@
                         {% if gift.gift_image %}
                             <img src="{{ gift.gift_image.url }}" class="img-responsive" alt="">
                         {% else %}
-                            <img src="{% static 'gift/img/shapeVibe-Logo.png' %}" class="img-responsive" alt="">
+                            {% if gift.gift_audio %}
+                                <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" alt="">
+                            {% else %}
+                                <img src="{% static 'gift/img/shapeVibe-Logo.png' %}" class="img-responsive" alt="">
+                            {% endif %}
                         {% endif %}
                         <div class="caption" id="caption" style="font-size:0.75em">
                             <h4 style="font-size:1.25em"><a href="{% url 'gift:modal' gift.id %}" data-toggle="modal" data-target="#giftModal{{gift.id}}" style="

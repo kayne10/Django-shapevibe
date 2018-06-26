@@ -15,8 +15,8 @@ from .forms import GiftForm, UserForm, SignupForm,ProfileForm
 from .models import Gift
 import datetime
 
-AUDIO_FILE_TYPES = ['wav', 'mp3', 'ogg']
-IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg']
+# AUDIO_FILE_TYPES = ['wav', 'mp3', 'ogg']
+# IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg', '.tif', '.tiff']
 
 
 # Create your views here.
@@ -36,13 +36,13 @@ def index(request):
             Q(gift_title__icontains=query) |
             Q(gift_description__icontains=query) |
             Q(tags__icontains=query)
-        ).distinct()
+        ).distinct().order_by('-id')
         users = users.filter(
             Q(username__contains=query) |
             Q(profile__first_name__iexact=query) |
             Q(profile__last_name__iexact=query) |
             Q(profile__first_name__contains=query, profile__last_name__contains=query) |
-            Q(profile__tags__icontains=query)
+            Q(profile__tags__iexact=query)
         ).distinct()
         return render(request, 'gift/index.html', {'gifts': gifts, 'users': users, 'query': query})
     else:
@@ -68,19 +68,12 @@ def create_gift(request):
         if form.is_valid():
             gift = form.save(commit=False)
             gift.user = request.user
-            if gift.gift_image:
-                file_type = gift.gift_image.url.split('.')[-1]
-                file_type = file_type.lower()
-                if file_type not in IMAGE_FILE_TYPES:
-                    context = {
-                        'gift': gift,
-                        'form': form,
-                        'error_message': 'Image file must be PNG, JPG, or JPEG',
-                    }
-                    return render(request, 'gift/create_gift.html', context)
+            audio_file_type = gift.gift_audio.url.split('.')[-1].lower()
+            gift.handle_tags_when_free()
             gift.save()
-            return render(request, 'gift/detail.html', {'gift': gift})
+            return render(request, 'gift/detail.html', {'gift': gift, 'audio_file_type': audio_file_type})
     else:
+        # FIND OUT HOW TO SHOW ERROR MESSAGE
         form = GiftForm()
     return render(request, 'gift/create_gift.html', {'form': form})
 
@@ -95,16 +88,8 @@ def edit_gift(request, gift_id):
         try:
             if form.is_valid():
                 gift = form.save(commit=False)
-                if gift.gift_image:
-                    file_type = gift.gift_image.url.split('.')[-1]
-                    file_type = file_type.lower()
-                    if file_type not in IMAGE_FILE_TYPES:
-                        context = {
-                            'gift': gift,
-                            'form': form,
-                            'error_message': 'Image file must be PNG, JPG, or JPEG',
-                        }
-                        return render(request, 'gift/edit_gift.html', context)
+                audio_file_type = gift.gift_audio.url.split('.')[-1].lower()
+                gift.handle_tags_when_free()
                 gift.save()
                 return render(request, 'gift/detail.html', {'gift': gift, 'success_message':'Succesffully edited gift.'})
         except:
@@ -122,8 +107,7 @@ def edit_gift(request, gift_id):
 def delete_gift(request, gift_id):
     gift = Gift.objects.get(pk=gift_id)
     gift.delete()
-    gifts_posted_by_user = Gift.objects.filter(user=request.user)
-    return render(request, 'gift/profile.html', {'user': request.user, 'gifts':gifts_posted_by_user})
+    return redirect('gift:view_profile', username=request.user.username)
 
 # Profile views
 @login_required
@@ -145,20 +129,6 @@ def view_profile(request, username):
                                                     'profile_gifts': gifts_by_viewed_user,
                                                     'last_gift': last_gift,
                                                 })
-
-# @login_required
-# def view_profile_gifts(request, username):
-#     user = request.user
-#     profile = User.objects.get(username=username)
-#     gifts_posted_by_user = Gift.objects.filter(user=user).order_by('-id')
-#     gifts_by_viewed_user = Gift.objects.filter(user=profile).order_by('-id')
-#     return render(request, 'gift/profile_gifts.html', {
-#                                                         'user': user,
-#                                                         'profile': profile,
-#                                                         'gifts': gifts_posted_by_user,
-#                                                         'profile_gifts': gifts_by_viewed_user,
-#                                                         })
-
 
 @login_required
 def update_profile(request):

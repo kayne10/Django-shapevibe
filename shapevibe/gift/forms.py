@@ -5,15 +5,20 @@ from django.contrib.auth.models import User
 
 from .models import Gift, Profile
 
+AUDIO_FILE_TYPES = ['wav', 'mp3', 'ogg']
+IMAGE_FILE_TYPES = ['png', 'jpg', 'jpeg', '.tif', '.tiff']
+
 class GiftForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(GiftForm, self).__init__(*args, **kwargs)
+        self.fields['gift_image'].label = 'Image: File must be PNG, JPG, JPEG, TIF, or TIFF'
+        self.fields['gift_audio'].label = 'Audio: File must be WAV, MP3, or OGG'
         self.fields['price'].label = 'Price: Leave blank if gift is free.'
         self.fields['tags'].label = 'Tags: *Separate each value with comma. 5 max.'
 
     class Meta:
         model = Gift
-        fields = ['gift_title', 'gift_description', 'gift_image', 'price', 'tags']
+        fields = ['gift_title', 'gift_description', 'gift_image', 'gift_audio', 'price', 'tags']
 
 
 class UserForm(forms.ModelForm):

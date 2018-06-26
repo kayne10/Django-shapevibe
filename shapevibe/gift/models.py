@@ -4,6 +4,7 @@ from django.contrib.auth.models import User, AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.conf import settings
+from .validators import validate_img_file_extension, validate_audio_file_extension
 import datetime
 
 # Create your models here.
@@ -11,8 +12,9 @@ class Gift(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, default=1, on_delete=models.CASCADE)
     gift_title = models.CharField(max_length=250)
     gift_description = models.TextField(max_length=2000)
-    gift_image = models.FileField(blank=True)
-    price = models.IntegerField(blank=True, null=True)
+    gift_image = models.FileField(blank=True, validators=[validate_img_file_extension])
+    gift_audio = models.FileField(upload_to='audio_files/', blank=True, validators=[validate_audio_file_extension])
+    price = models.PositiveIntegerField(blank=True, null=True)
     created_at = models.DateField(auto_now_add=True)
     tags = ArrayField(models.CharField(max_length=50), blank=True, null=True, default=[])
     updated_at = models.DateTimeField(auto_now=True)
@@ -20,8 +22,16 @@ class Gift(models.Model):
     def __str__(self):
         return self.gift_title + ' - ' + self.user.username
 
-    def splitTags(self):
+    def split_tags(self):
         return self.tags.split(',')
+
+    def handle_tags_when_free(self):
+        if self.price is None:
+            self.tags.append('free')
+        else:
+            if 'free' in self.tags:
+                self.tags.remove('free')
+        return self.tags
 
 # class Tag(models.Model):
 #     name = models.CharField(max_length=25, on_delete=models.CASCADE, blank=True, null=True)

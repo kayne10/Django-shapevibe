@@ -34,7 +34,11 @@
                                     {% if gift.gift_image %}
                                         <img src="{{gift.gift_image.url}}" class="img-responsive" width="100px" alt="">
                                     {% else %}
-                                        <img src="{% static 'gift/img/iconMedium.png' %}" alt="" width="100px">
+                                        {% if gift.gift_audio %}
+                                            <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" width="100px" alt="">
+                                        {% else %}
+                                            <img src="{% static 'gift/img/iconMedium.png' %}" alt="" width="100px">
+                                        {% endif %}
                                     {% endif %}
                                     <div class="profile-gift-well-caption" style="display:block;">
                                         <span class="gift-value" style="color:darkgrey;">{{ gift.created_at }}</span><br>
@@ -58,7 +62,11 @@
                                     {% if gift.gift_image %}
                                         <a href="{% url 'gift:detail' gift.id %}"><img src="{{gift.gift_image.url}}" class="img-responsive" width="100px" alt=""></a>
                                     {% else %}
-                                        <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="100px" alt=""></a>
+                                        {% if gift.gift_audio %}
+                                            <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" width="100px" alt="">
+                                        {% else %}
+                                            <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="100px" alt=""></a>
+                                        {% endif %}
                                     {% endif %}
                                     <div class="profile-gift-well-caption" style="display:block;">
                                         <span class="gift-value">{{ gift.created_at }}</span><br>
@@ -113,30 +121,33 @@
         </div>
         <div class="controller">
 
-                <a href="{% url 'gift:view_profile' user.username %}"><img src="{% static 'gift/img/home.png' %}" alt=""></a>
-                <a href=""><img class="unavailable-content" src="{% static 'gift/img/friends.png' %}" alt=""></a>
+                <button onclick="showProfile()" style="background:transparent;border:none;padding:0 10px;"><img src="{% static 'gift/img/home.png' %}" class="img-responsive" alt=""></button>
+                <a href="" style="padding:0 10px;"><img class="unavailable-content img-responsive" src="{% static 'gift/img/friends.png' %}" alt=""></a>
 
-                <button onclick="showAllGifts()" style="background:transparent;border:none;"><img src="{% static 'gift/img/gift.png' %}" alt=""></button>
+                <button onclick="showAllGifts()" style="background:transparent;border:none;padding:0 10px;"><img src="{% static 'gift/img/gift.png' %}" class="img-responsive" alt=""></button>
 
 
-                <a href=""><img class="unavailable-content" src="{% static 'gift/img/heart.png' %}" alt=""></a>
-                <a href=""><img class="unavailable-content" src="{% static 'gift/img/star.png' %}" alt=""></a>
-                <a href=""><img class="unavailable-content" src="{% static 'gift/img/cloud.png' %}" alt=""></a>
-                <a href=""><img class="unavailable-content" src="{% static 'gift/img/wrench.png' %}" alt=""></a>
+                <a href="" style="padding:0 10px;"><img class="unavailable-content img-responsive" src="{% static 'gift/img/heart.png' %}" alt=""></a>
+                <a href="" style="padding:0 10px;"><img class="unavailable-content img-responsive" src="{% static 'gift/img/star.png' %}" alt=""></a>
+                <a href="" style="padding:0 10px;"><img class="unavailable-content img-responsive" src="{% static 'gift/img/cloud.png' %}" alt=""></a>
+                <a href="" style="padding:0 10px;"><img class="unavailable-content img-responsive" src="{% static 'gift/img/wrench.png' %}" alt=""></a>
 
         </div>
     </div>
 
 <script>
     //use in-line js for controller actions on showing specific content
+    var x = document.getElementById("profileInfo");
+    var y = document.getElementById("giftList");
     function showAllGifts() {
-        var x = document.getElementById("profileInfo");
-        var y = document.getElementById("giftList");
-
         if (y.style.display === 'none'){
             y.style.display = 'block';
             x.style.display = 'none';
-        } else {
+        }
+    }
+
+    function showProfile() {
+        if (y.style.display === 'block') {
             y.style.display = 'none';
             x.style.display = 'block';
         }
