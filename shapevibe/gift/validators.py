@@ -12,4 +12,3 @@ def validate_audio_file_extension(value):
     valid_extensions = ['.wav', '.mp3', '.ogg']
     if not ext.lower() in valid_extensions:
         raise ValidationError(u'Unsupported file extension.')
-

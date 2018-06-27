@@ -26,7 +26,7 @@ class Gift(models.Model):
         return self.tags.split(',')
 
     def handle_tags_when_free(self):
-        if self.price is None:
+        if self.price is None or 0:
             self.tags.append('free')
         else:
             if 'free' in self.tags:

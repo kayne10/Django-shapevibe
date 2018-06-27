@@ -27,7 +27,7 @@ def about(request):
 @login_required
 def index(request):
     user = request.user
-    gifts = Gift.objects.all().order_by('-id')  # or filter by user
+    gifts = Gift.objects.all().order_by('-updated_at') # limit up to 50?
     users = User.objects.all()
     query = request.GET.get("q")
     if query:
@@ -72,8 +72,12 @@ def create_gift(request):
             gift.handle_tags_when_free()
             gift.save()
             return render(request, 'gift/detail.html', {'gift': gift, 'audio_file_type': audio_file_type})
+        else:
+            # FIND OUT HOW TO SHOW Validation ERROR MESSAGE
+            error_message = 'Unsupported file.'
+            form = GiftForm()
+            return render(request, 'gift/create_gift.html', {'form': form, 'error_message': error_message})
     else:
-        # FIND OUT HOW TO SHOW ERROR MESSAGE
         form = GiftForm()
     return render(request, 'gift/create_gift.html', {'form': form})
 
@@ -88,7 +92,8 @@ def edit_gift(request, gift_id):
         try:
             if form.is_valid():
                 gift = form.save(commit=False)
-                audio_file_type = gift.gift_audio.url.split('.')[-1].lower()
+                if gift.gift_audio:
+                    audio_file_type = gift.gift_audio.url.split('.')[-1].lower()
                 gift.handle_tags_when_free()
                 gift.save()
                 return render(request, 'gift/detail.html', {'gift': gift, 'success_message':'Succesffully edited gift.'})
@@ -96,12 +101,12 @@ def edit_gift(request, gift_id):
             context = {
                 'gift': gift,
                 'form': form,
-                'error_message': 'Error editing gift',
+                'error_message': 'Unsupported file.',
             }
-            return render(reqnest, 'gift/edit_gift.html', context)
+            return render(request, 'gift/edit_gift.html', context)
     else:
         form = GiftForm(instance=gift)
-        return render(request, 'gift/edit_gift.html', {'form':form})
+        return render(request, 'gift/edit_gift.html', {'form':form, 'gift': gift})
 
 @login_required
 def delete_gift(request, gift_id):
@@ -114,20 +119,17 @@ def delete_gift(request, gift_id):
 def view_profile(request, username):
     user = request.user
     profile = User.objects.get(username=username)
-    gifts_posted_by_user = Gift.objects.filter(user=user).order_by('-id')
-    gifts_by_viewed_user = Gift.objects.filter(user=profile).order_by('-id')
-    if gifts_posted_by_user.count() > 0:
-        last_gift = gifts_posted_by_user[0]
-    if gifts_by_viewed_user.count() > 0:
-        last_gift = gifts_by_viewed_user[0]
-    # The if/else statement could be easier to render in template
-    # else: No gifts yet, please create your first gift
+    gifts_posted_by_user = Gift.objects.filter(user=user).order_by('-created_at')
+    gifts_by_viewed_user = Gift.objects.filter(user=profile).order_by('-created_at')
+    preview_most_recent_gifts = Gift.objects.filter(user=user).order_by('-updated_at')[:2]
     return render(request, 'gift/profile.html', {
                                                     'user': user,
                                                     'profile': profile,
                                                     'gifts': gifts_posted_by_user,
                                                     'profile_gifts': gifts_by_viewed_user,
-                                                    'last_gift': last_gift,
+                                                    'gifts_by_viewed_user': gifts_by_viewed_user,
+                                                    'recent_gifts': preview_most_recent_gifts,
+
                                                 })
 
 @login_required
@@ -151,7 +153,8 @@ def update_profile(request):
             context = {
                 'user': request.user,
                 'profile': request.user,
-                'gifts': Gift.objects.filter(user=request.user),
+                'gifts': Gift.objects.filter(user=request.user).order_by('-created_at'),
+                'recent_gifts': Gift.objects.filter(user=request.user).order_by('-created_at')[:2],
                 'success_message': 'You succesfully updated your profile',
             }
             return render(request, 'gift/profile.html', context)
@@ -191,7 +194,7 @@ def login_user(request):
         if user is not None:
             if user.is_active:
                 login(request, user, backend='django.contrib.auth.backends.ModelBackend')
-                gifts = Gift.objects.all().order_by('-id') # or filter by user
+                gifts = Gift.objects.all().order_by('-updated_at') # or filter by user
                 return render(request, 'gift/index.html', {'gifts': gifts, 'user':user})
             else:
                 return render(request, 'gift/login.html', {'error_message': 'Your account has been disabled'})
@@ -205,6 +208,9 @@ def register(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.is_active = False
+            existing = User.objects.filter(username__iexact=user.cleaned_data['username'])
+            if existing.exists():
+                return render(request, 'gift/register.html', {'form': SignupForm(), 'error_message': 'Username already taken.',})
             user.save()
             current_site = get_current_site(request)
             mail_subject = 'Activate your blog account'

@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'gift.apps.GiftConfig',
     'social_django',
+    'django_cleanup',
 ]
 
 MIDDLEWARE = [
@@ -181,9 +182,9 @@ SOCIAL_AUTH_FACEBOOK_SECRET = data['facebookSecret']
 # Google+ SignIn (google-plus)
 SOCIAL_AUTH_GOOGLE_PLUS_IGNORE_DEFAULT_SCOPE = True
 SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = [
-'https://www.googleapis.com/auth/plus.login',
-'https://www.googleapis.com/auth/userinfo.email',
-'https://www.googleapis.com/auth/userinfo.profile'
+    'https://www.googleapis.com/auth/plus.login',
+    'https://www.googleapis.com/auth/userinfo.email',
+    'https://www.googleapis.com/auth/userinfo.profile'
 ]
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = data['googleClientID']
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = data['googleSecret']

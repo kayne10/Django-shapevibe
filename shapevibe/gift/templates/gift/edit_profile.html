@@ -36,9 +36,12 @@
                 {% endfor %}
                 <!--{{ user_form.as_p }}-->
                 <!--{{ profile_form.as_p }}-->
-                <button class="btn btn-primary" type="submit">Save changes</button>
+                <div class="button-bar" style="display:flex; justify-content:space-between;">
+                    <button class="btn btn-primary" type="submit">Save changes</button>
+                    <a href="{% url 'gift:delete_user' user.username %}" onclick="return confirm('Are you sure?')"><button class="btn btn-danger">Delete Account</button></a>
+                </div>
             </form>
-            <a href="{% url 'gift:delete_user' user.username %}" onclick="return confirm('Are you sure?')">Delete Account</a>
+
         </div>
     </div>
 </div>

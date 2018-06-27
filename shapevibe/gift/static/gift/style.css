@@ -171,7 +171,10 @@ modal-dialog {
     height: 500px;
     width: auto;
 }
-
+.profile-half {
+    width:50%;
+    height:auto;
+}
 .profile-summary {
     white-space: pre-wrap;
 }
@@ -188,6 +191,10 @@ modal-dialog {
     display: block;
 }
 
+.gift-wrapper {
+    display: flex;
+}
+
 .gift-list {
     over-flow-x: scroll;
     height: 500px;
@@ -196,12 +203,20 @@ modal-dialog {
 
 .controller {
     background:black;
-    width: 75%;
-    margin: 0 auto;
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
     display: flex;
 }
+.controller.controller-panel {
+    width:75%;
+    background: transparent;
+    margin: 0 auto;
+    justify-content: space-between;
+    padding:1.5em; 0;
+}
 .controller a {
-    pointer-events: none;
 }
 .unavailable-content {
     opacity: 0.4;
@@ -218,3 +233,17 @@ footer {
     text-align: center;
     padding: 4em;
 }
+
+@media screen and (max-width: 767px) {
+  .profile-half {
+    width:100%;
+  }
+  .gift-wrapper {
+    display:block;
+  }
+}
+
+/*.side-nav-fixed {
+  position: fixed;
+  height: auto;
+}*/

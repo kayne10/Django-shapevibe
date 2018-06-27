@@ -8,6 +8,11 @@
     <div class="auth-panel">
         <img src="{% static 'gift/img/iconMedium.png' %}" width="150" alt="">
         <h1>Sign up</h1>
+        {% if error_message %}
+            <div class="alert alert-danger gift-value">
+                {{ error_message }}
+            </div>
+        {% endif %}
         <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}

@@ -34,7 +34,7 @@
                     <p><span class="gift-value" style="white-space: pre-wrap; font-size:1.25em;">{{gift.gift_description}}</span></p><br>
                     <div class="modal-caption">
                         <a href="{% url 'gift:detail' gift.id %}"><span class="gift-value" style="color:white;">{{gift.gift_title}}</span></a><br>
-                        <a href="{% url 'gift:view_profile' gift.user.username %}"><span class="gift-value" style="color:white;">{{user.username}}</span></a><br>
+                        <a href="{% url 'gift:view_profile' gift.user.username %}"><span class="gift-value" style="color:white;">{{gift.user}}</span></a><br>
                         {% if gift.price %}
                             <span class="gift-value">${{gift.price}}</span>
                         {% else %}
