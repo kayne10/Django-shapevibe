@@ -4,37 +4,199 @@
 
 {% block body %}
 <div class="container" style="width:100%;">
-    <a href="{% url 'gift:index' %}"><img src="{% static 'gift/img/iconMedium.png' %}" width="100" alt=""></a><br>
-    <div class="col-md-10 col-md-offset-1">
-        <div class="row">
-            <div class="col-md-6">
-                <div class="panel">
-                    {% if gift.gift_image %}
-                        <img src="{{gift.gift_image.url}}" class="img-responsive" alt="">
-                    {% else %}
-                        <img src="{% static 'gift/img/shapeVibe-Logo.png' %}" class="img-responsive" width="550px" alt="">
-                    {% endif %}
-                </div>
+    <!-- shapevibe logo and home/profile logo -->
+        <a href="{% url 'gift:index' %}" style="margin-left:0.5em;margin-top:2em;display:block;"><img src="{% static 'gift/img/iconMedium.png' %}" width="80px" class="img-responsive" alt=""></a><br>
+        <a href="{% url 'gift:logout_user' %}" style="color:white;margin-left:0.5em;">Logout</a>
+    <div class="row">
+        <div class="col-xs-10 col-xs-offset-1 col-sm-10 col-sm-offset-1 col-md-10 col-md-offset-1 col-lg-8 col-lg-offset-2 profile-wrapper" style="margin-top:-5em;">
+            <div class="top-bar" style="width:100%; display:flex; justify-content: space-around; height:6em;">
+                <img id="giftIcon" src="{% static 'gift/img/gift.png' %}"  class="img-responsive" style="margin-bottom:0.25em;margin-left:4em;display:block;" alt="">
+                <a href="{% url 'gift:create_gift' %}"><button id="giftButton" class="btn btn-primary" style="display:none;height:2em;margin-top:2em;">Add Gift +</button></a>
             </div>
-            <div class="col-md-4">
-                <div class="panel">
-                    {% if success_message %}
-                    <div class="alert alert-success">
-                        {{success_message}}
+            <div class="panel panel-default" style="height:450px;overflow-y:scroll">
+                <div class="row">
+                    <div class="gift-list" id="giftList" style="
+                            height: auto;
+                            width:95%;
+                            display:none;
+                            margin: 0 auto;
+                            padding:0 0.5em;
+                        ">
+                        <h1>{{user.username}}'s Gifts</h1>
+                        <div class="gift-wrapper">
+                            <div class="list" style="width:100%;">
+                                {% for gift in gifts %}
+                                    {% cycle 'odd' 'even' as state silent %}
+                                    {% if state == 'odd' %}
+                                        <div class="well" style="
+                                            height: 9em;
+                                            width: auto;
+                                            margin: 0 auto;
+                                            padding: 19px 0;
+                                            ">
+                                            <div class="col-md-5 profile-gift-well" style="height:100%; width:100%; display-flex; justify-content:space-between;">
+                                                {% if gift.gift_image %}
+                                                    <img src="{{gift.gift_image.url}}" class="img-responsive" width="100px" alt="">
+                                                {% else %}
+                                                    {% if gift.gift_audio %}
+                                                        <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" width="100px" alt="">
+                                                    {% else %}
+                                                        <img src="{% static 'gift/img/iconMedium.png' %}" alt="" width="100px">
+                                                    {% endif %}
+                                                {% endif %}
+                                                <div class="profile-gift-well-caption" style="display:block; width:60%; font-size: 0.75em;">
+                                                    <span class="gift-value" style="color:darkgrey;">{{ gift.created_at }}</span><br>
+                                                    <span class="gift-value" style="color:darkgrey;">{{ gift.gift_title|title }}</span>
+                                                </div>
+                                                <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/eye.png' %}" height="50px" alt=""></a>
+                                                <a href="{% url 'gift:edit_gift' gift.id %}"><i class="fa fa-edit"></i></a>
+                                            </div>
+                                        </div>
+                                    {% endif %}
+                                {% endfor %}
+                                </div>
+                                <div class="list" style="width:100%;">
+                                    {% for gift in gifts %}
+                                        {% cycle 'odd' 'even' as state silent %}
+                                        {% if state == 'even' %}
+                                            <div class="well" style="
+                                                height: 9em;
+                                                width: auto;
+                                                margin: 0 auto;
+                                                ">
+                                                <div class="profile-gift-well" style="height:100%; width:100%; display-flex; justify-content:space-around;">
+                                                    {% if gift.gift_image %}
+                                                        <img src="{{gift.gift_image.url}}" class="img-responsive" width="100px" alt="">
+                                                    {% else %}
+                                                        {% if gift.gift_audio %}
+                                                            <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" width="100px" alt="">
+                                                        {% else %}
+                                                            <img src="{% static 'gift/img/iconMedium.png' %}" alt="" width="100px">
+                                                        {% endif %}
+                                                    {% endif %}
+                                                    <div class="profile-gift-well-caption" style="display:block; width:60%; font-size: 0.75em;">
+                                                        <span class="gift-value" style="color:darkgrey;">{{ gift.created_at }}</span><br>
+                                                        <span class="gift-value" style="color:darkgrey;">{{ gift.gift_title|title }}</span>
+                                                    </div>
+                                                    <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/eye.png' %}" height="50px" alt=""></a>
+                                                    <a href="{% url 'gift:edit_gift' gift.id %}"><i class="fa fa-edit"></i></a>
+                                                    <!--<a href="{% url 'gift:delete_gift' gift.id %}" onclick="return confirm('Are you sure?')">Delete</a>-->
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    {% endfor %}
+                                </div>
+                        </div>
                     </div>
-                    {% endif %}
-                    <h1><strong>Title:</strong> <span class="gift-value">{{gift.gift_title|title}}</span></h1>
-                    <p>Description: <br> <span class="gift-value">{{gift.gift_description}}</span></p>
-                    <h6 class="gift-value">Posted by <a href="{% url 'gift:view_profile' gift.user.username %}">{{gift.user}}</a> at {{gift.created_at}}</h6>
-                    <div class="share">
-                        <h3>Share:</h3>
-                        <span class='st_facebook_large' displayText='Facebook'></span>
-                        <span class='st_twitter_large' displayText='Tweet'></span>
+                    <div id="giftInfo">
+                        <div class="col-md-6 profile-half">
+
+                            {% if gift.gift_image %}
+                                <img src="{{gift.gift_image.url}}" class="img-responsive" style="padding: 1em;" alt="">
+                            {% else %}
+                                {% if gift.gift_audio %}
+                                    <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" alt="">
+                                {% else %}
+                                    <img src="{% static 'gift/img/shapeVibe-Logo.png' %}" class="img-responsive" alt="">
+                                {% endif %}
+                            {% endif %}
+                            {% if gift.gift_audio %}
+                            <audio controls>
+                                <source src="{{ gift.gift_audio.url }}"
+                                        {% if audio_file_type == 'mp3' %}
+                                            type="audio/mpeg"
+                                        {% elif audio_file_type == 'ogg' %}
+                                            type="audio/ogg"
+                                        {% else %}
+                                            type="audio/wav"
+                                        {% endif %}
+                                >
+                            </audio>
+                        {% endif %}
+                        </div>
+                        <div class="col-md-4 profile-half" style="height:auto;">
+
+                            {% if success_message %}
+                                <div class="alert alert-success">
+                                    {{success_message}}
+                                </div>
+                            {% endif %}
+                            title: <h4 class="gift-value">{{gift.gift_title|title}}</h4>
+                            Description: <br> <p><span class="gift-value">{{gift.gift_description}}</span></p>
+                            <!--<h6 class="gift-value">Posted by <a href="{% url 'gift:view_profile' gift.user.username %}">{{gift.user}}</a> at {{gift.created_at}}</h6>-->
+                            {% if gift.price %}
+                                price: <h4 class="gift-value">${{gift.price}}</h4>
+                            {% else %}
+                                price: <h4 class="gift-value">Free</h4>
+                            {% endif %}
+                            Posted by: <a href="{% url 'gift:view_profile' gift.user.username %}" class="gift-value">{{ gift.user }}</a>
+                            <div class="share" style="background: white; height:100%;">
+                                <h3>Share:</h3>
+                                <span class='st_facebook_large' displayText='Facebook'></span>
+                                <span class='st_twitter_large' displayText='Tweet'></span>
+                                <span class="st_googleplus_large" displayText="Google+"></span>
+                                <span class="st_reddit_large" displayText="Reddit"></span>
+                                <span class="st_email_large" displayText="Email"></span>
+                            </div>
+
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="controller" style="
+            background: black;
+            width: 100%;
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            height: auto;">
+            <div class="controller-panel" style="
+                width:75%;
+                background: transparent;
+                margin: 0 auto;
+                display:flex;
+                justify-content: space-between;
+                padding:1.5em; 0;">
+                <a href="{% url 'gift:view_profile' gift.user.username %}"><img src="{% static 'gift/img/home.png' %}" class="img-responsive" alt=""></></a>
+                <a href="" style="padding:0 10px;"><img class="unavailable-content img-responsive" src="{% static 'gift/img/friends.png' %}" alt=""></a>
 
+                <button onclick="showAllGifts()" style="background:transparent;border:none;padding:0 10px;"><img src="{% static 'gift/img/gift.png' %}" class="img-responsive" alt=""></button>
+
+
+                <a href="" style="padding:0 10px;"><img class="unavailable-content img-responsive" src="{% static 'gift/img/heart.png' %}" alt=""></a>
+                <a href="" style="padding:0 10px;"><img class="unavailable-content img-responsive" src="{% static 'gift/img/star.png' %}" alt=""></a>
+                <a href="" style="padding:0 10px;"><img class="unavailable-content img-responsive" src="{% static 'gift/img/cloud.png' %}" alt=""></a>
+                <a href="" style="padding:0 10px;"><img class="unavailable-content img-responsive" src="{% static 'gift/img/wrench.png' %}" alt=""></a>
+            </div>
+        </div>
+</div>
+<script>
+    //use in-line js for controller actions on showing specific content
+    var x = document.getElementById("giftInfo");
+    var y = document.getElementById("giftList");
+    var h = document.getElementById("homeIcon");
+    var g = document.getElementById("giftIcon");
+    var b = document.getElementById("giftButton");
+    function showAllGifts() {
+        if (y.style.display === 'none'){
+            y.style.display = 'block';
+            x.style.display = 'none';
+            h.style.display = 'none';
+            g.style.display = 'block';
+            b.style.display = 'block';
+        }
+    }
+
+    function showProfile() {
+        if (y.style.display === 'block') {
+            y.style.display = 'none';
+            x.style.display = 'block';
+            h.style.display = 'block';
+            g.style.display = 'none';
+            b.style.display = 'none';
+        }
+    }
+</script>
 {% endblock %}

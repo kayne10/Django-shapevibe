@@ -50,9 +50,10 @@ def index(request):
 
 @login_required
 def detail(request, gift_id):
-    # user = request.user
+    user = request.user
     gift = get_object_or_404(Gift, pk=gift_id)
-    return render(request, 'gift/detail.html', {'gift': gift})
+    gifts_posted_by_user = Gift.objects.filter(user=user).order_by('-created_at')
+    return render(request, 'gift/detail.html', {'gift': gift, 'user': user, 'gifts': gifts_posted_by_user})
 
 @login_required
 def modal(request, gift_id):
@@ -68,10 +69,15 @@ def create_gift(request):
         if form.is_valid():
             gift = form.save(commit=False)
             gift.user = request.user
-            audio_file_type = gift.gift_audio.url.split('.')[-1].lower()
-            gift.handle_tags_when_free()
-            gift.save()
-            return render(request, 'gift/detail.html', {'gift': gift, 'audio_file_type': audio_file_type})
+            if gift.gift_audio:
+                audio_file_type = gift.gift_audio.url.split('.')[-1].lower()
+                gift.handle_tags_when_free()
+                gift.save()
+                return render(request, 'gift/detail.html', {'gift': gift, 'audio_file_type': audio_file_type})
+            else:
+                gift.handle_tags_when_free()
+                gift.save()
+            return render(request, 'gift/detail.html', {'gift': gift})
         else:
             # FIND OUT HOW TO SHOW Validation ERROR MESSAGE
             error_message = 'Unsupported file.'

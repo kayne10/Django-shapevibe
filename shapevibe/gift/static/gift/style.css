@@ -166,6 +166,9 @@ modal-dialog {
 }
 
 /****** Profile.html  ******/
+.profile-wrapper {
+    margin-top:-5em;
+}
 .profile-info {
     over-flow-x: scroll;
     height: 500px;
@@ -178,7 +181,12 @@ modal-dialog {
 .profile-summary {
     white-space: pre-wrap;
 }
-
+.well {
+    height: 9em;
+    width: auto;
+    margin: 0 auto;
+    padding: 19px 0;
+}
 .profile-gift-well {
     height: auto;
     display: flex;
@@ -234,6 +242,8 @@ footer {
     padding: 4em;
 }
 
+
+/* mobile media query additions */
 @media screen and (max-width: 767px) {
   .profile-half {
     width:100%;
@@ -241,9 +251,8 @@ footer {
   .gift-wrapper {
     display:block;
   }
+  .top-bar {
+    width: 30%;
+    margin-left: 3em;
+  }
 }
-
-/*.side-nav-fixed {
-  position: fixed;
-  height: auto;
-}*/
