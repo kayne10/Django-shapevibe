@@ -146,15 +146,6 @@ def update_profile(request):
         if user_form.is_valid() and profile_form.is_valid():
             user_form.save()
             profile = profile_form.save(commit=False)
-            if profile.avatar:
-                file_type = profile.avatar.url.split('.')[-1]
-                if file_type not in IMAGE_FILE_TYPES:
-                    context = {
-                        'profile_form': profile_form,
-                        'user_form': user_form,
-                        'error_message': 'Image file must be PNG, JPG, or JPEG',
-                    }
-                    return render(request, 'gift/edit_profile.html', context)
             profile.save()
             context = {
                 'user': request.user,
@@ -175,7 +166,7 @@ def update_profile(request):
         user = request.user
         user_form = UserForm(instance=user)
         profile_form = ProfileForm(instance=user.profile)
-    return render(request, 'gift/edit_profile.html', {'user': user, 'user_form': user_form,'profile_form': profile_form})
+    return render(request, 'gift/edit_profile.html', {'user': user, 'user_form': user_form, 'profile_form': profile_form})
 
 @login_required
 def delete_user(request, username):

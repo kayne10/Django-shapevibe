@@ -33,6 +33,16 @@ class Gift(models.Model):
                 self.tags.remove('free')
         return self.tags
 
+    # def save(self, force_insert=False, force_update=False):
+    #     super(Gift, self).save(force_insert, force_update)
+    #
+    #     if self.id is not None:
+    #         previous = Gift.objects.get(id=self.id)
+    #         if self.gift_image and self.gift_image != previous.gift_image:
+    #             image = Image.open(self.gift_image.path)
+    #             image = image.resize((96, 96), Image.ANTIALIAS)
+    #             image.save(self.gift_image.path)
+
 # class Tag(models.Model):
 #     name = models.CharField(max_length=25, on_delete=models.CASCADE, blank=True, null=True)
 
@@ -41,7 +51,7 @@ class Profile(models.Model):
     first_name = models.CharField(max_length=15, blank=True)
     last_name = models.CharField(max_length=20, blank=True)
     summary = models.TextField(max_length=500, blank=True)
-    avatar = models.FileField(upload_to='avatars/', blank=True)
+    avatar = models.FileField(upload_to='avatars/', blank=True, validators=[validate_img_file_extension])
     tags = ArrayField(models.CharField(max_length=50), blank=True, null=True, default=[])
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -56,3 +66,13 @@ class Profile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
+
+    # def save(self, force_insert=False, force_update=False):
+    #     super(Profile, self).save(force_insert, force_update)
+    #
+    #     if self.id is not None:
+    #         previous = Profile.objects.get(id=self.id)
+    #         if self.avatar and self.avatar != previous.avatar:
+    #             image = Image.open(self.avatar.path)
+    #             image = image.resize((96, 96), Image.ANTIALIAS)
+    #             image.save(self.avatar.path)

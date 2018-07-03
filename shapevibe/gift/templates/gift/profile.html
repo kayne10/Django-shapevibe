@@ -31,35 +31,42 @@
                             <h1>{{user.username}}'s Gifts</h1>
                             <div class="gift-wrapper">
                                 <div class="list" style="width:100%;">
-                                     {% for gift in gifts %}
-                                        {% cycle 'odd' 'even' as state silent %}
-                                        {% if state == 'odd' %}
-                                        <div class="well" style="
-                                            height: 9em;
-                                            width: auto;
-                                            margin: 0 auto;
-                                            padding: 19px 0;
-                                            ">
-                                            <div class="col-md-5 profile-gift-well" style="height:100%; width:100%; display-flex; justify-content:space-between;">
-                                                {% if gift.gift_image %}
-                                                    <img src="{{gift.gift_image.url}}" class="img-responsive" width="100px" alt="">
-                                                {% else %}
-                                                    {% if gift.gift_audio %}
-                                                        <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" width="100px" alt="">
+                                    {% if gifts %}
+                                        {% for gift in gifts %}
+                                            {% cycle 'odd' 'even' as state silent %}
+                                            {% if state == 'odd' %}
+                                            <div class="well" style="
+                                                height: 9em;
+                                                width: auto;
+                                                margin: 0 auto;
+                                                padding: 19px 0;
+                                                ">
+                                                <div class="col-md-5 profile-gift-well" style="height:100%; width:100%; display-flex; justify-content:space-around;">
+                                                    {% if gift.gift_image %}
+                                                        <img src="{{gift.gift_image.url}}" class="img-responsive" width="100px" alt="">
                                                     {% else %}
-                                                        <img src="{% static 'gift/img/iconMedium.png' %}" alt="" width="100px">
+                                                        {% if gift.gift_audio %}
+                                                            <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" width="100px" alt="">
+                                                        {% else %}
+                                                            <img src="{% static 'gift/img/iconMedium.png' %}" alt="" width="100px">
+                                                        {% endif %}
                                                     {% endif %}
-                                                {% endif %}
-                                                <div class="profile-gift-well-caption" style="display:block; width:60%; font-size: 0.75em;">
-                                                    <span class="gift-value" style="color:darkgrey;">{{ gift.created_at }}</span><br>
-                                                    <span class="gift-value" style="color:darkgrey;">{{ gift.gift_title|title }}</span>
+                                                    <div class="profile-gift-well-caption" style="display:block; width:60%; font-size: 0.75em;">
+                                                        <span class="gift-value" style="color:darkgrey;">{{ gift.created_at }}</span><br>
+                                                        <span class="gift-value" style="color:darkgrey;">{{ gift.gift_title|title }}</span>
+                                                    </div>
+                                                    <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/eye.png' %}" height="50px" alt=""></a>
+                                                    <div class="actions">
+                                                        <a href="{% url 'gift:edit_gift' gift.id %}"><i class="fa fa-edit"></i></a>
+                                                        <a href="{% url 'gift:delete_gift' gift.id %}" onclick="return confirm('Are you sure you want to delete gift?')"><i class="fa fa-trash"></i></a>
+                                                    </div>
                                                 </div>
-                                                <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/eye.png' %}" height="50px" alt=""></a>
-                                                <a href="{% url 'gift:edit_gift' gift.id %}"><i class="fa fa-edit"></i></a>
                                             </div>
-                                        </div>
-                                        {% endif %}
-                                    {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="alert alert-info">You have no gifts posted.</div>
+                                    {% endif %}
                                 </div>
                                 <div class="list" style="width:100%;">
                                          {% for gift in gifts %}
@@ -85,8 +92,10 @@
                                                         <span class="gift-value" style="color:darkgrey;">{{ gift.gift_title|title }}</span>
                                                     </div>
                                                     <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/eye.png' %}" height="50px" alt=""></a>
-                                                    <a href="{% url 'gift:edit_gift' gift.id %}"><i class="fa fa-edit"></i></a>
-                                                    <!--<a href="{% url 'gift:delete_gift' gift.id %}" onclick="return confirm('Are you sure?')">Delete</a>-->
+                                                    <div class="actions">
+                                                        <a href="{% url 'gift:edit_gift' gift.id %}"><button style="padding:5px;" class="btn btn-primary"><i class="fa fa-edit"></i></button></a>
+                                                        <a href="{% url 'gift:delete_gift' gift.id %}" onclick="return confirm('Are you sure you want to delete gift?')"><button style="padding:5px" class="btn btn-danger"><i class="fa fa-trash"></i></button></a>
+                                                    </div>
                                                 </div>
                                             </div>
                                             {% endif %}
@@ -94,8 +103,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="profile-info" id="profileInfo" style="height:500px; overflow-y:scroll">
-                            <div class="col-sm-5 col-md-5 col-lg-5 profile-half" style="padding: 0 2em;">
+                        <div class="profile-info" id="profileInfo" style="height:500px;">
+                            <div class="col-sm-5 col-md-5 col-lg-5 profile-half" style="padding-top:5em;">
                                 {% if user.username == profile.username %}
                                     <!-- Profile Pic -->
                                     {% if user.profile.avatar %}
@@ -130,33 +139,41 @@
                                     <!--<br>-->
                                     about: <p class="profile-summary gift-value">{{user.profile.summary}}</p><br>
                                     gifts:
-                                    {% for gift in recent_gifts %}
+                                    {% if recent_gifts %}
+                                        {% for gift in recent_gifts %}
 
-                                            <div class="well" style="
-                                                height: 7em;
-                                                width: auto;
-                                                margin: 0 auto;
-                                                ">
-                                                <div class="profile-gift-well" style="height:100%; width:100%; display-flex; justify-content:space-between;">
-                                                    {% if gift.gift_image %}
-                                                        <img src="{{gift.gift_image.url}}" class="img-responsive" width="60px" alt="">
-                                                    {% else %}
-                                                        {% if gift.gift_audio %}
-                                                            <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" width="60px" alt="">
+                                                <div class="well" style="
+                                                    height: 7em;
+                                                    width: auto;
+                                                    margin: 0 auto;
+                                                    ">
+                                                    <div class="profile-gift-well" style="height:100%; width:100%; display-flex; justify-content:space-between;">
+                                                        {% if gift.gift_image %}
+                                                            <img src="{{gift.gift_image.url}}" class="img-responsive" width="60px" alt="">
                                                         {% else %}
-                                                            <img src="{% static 'gift/img/iconMedium.png' %}" alt="" width="60px">
+                                                            {% if gift.gift_audio %}
+                                                                <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" width="60px" alt="">
+                                                            {% else %}
+                                                                <img src="{% static 'gift/img/iconMedium.png' %}" alt="" width="60px">
+                                                            {% endif %}
                                                         {% endif %}
-                                                    {% endif %}
-                                                    <div class="profile-gift-well-caption" style="display:block; width:60%; font-size: 0.75em;">
-                                                        <span class="gift-value" style="color:darkgrey;">{{ gift.created_at }}</span><br>
-                                                        <span class="gift-value" style="color:darkgrey;">{{ gift.gift_title|title }}</span><br>
+                                                        <div class="profile-gift-well-caption" style="display:block; width:60%; font-size: 0.75em;">
+                                                            <span class="gift-value" style="color:darkgrey;">{{ gift.created_at }}</span><br>
+                                                            <span class="gift-value" style="color:darkgrey;">{{ gift.gift_title|title }}</span><br>
+                                                        </div>
+                                                        <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/eye.png' %}" class="img-responsive" alt=""></a>
                                                     </div>
-                                                    <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/eye.png' %}" class="img-responsive" alt=""></a>
                                                 </div>
-                                            </div>
 
-                                    {% endfor %}
-                                    <a href="{% url 'gift:update_profile' %}"><button class="btn btn-primary">Edit Profile</button></a>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="alert alert-info">You have no gifts posted.</div>
+                                    {% endif %}
+                                <hr>
+                                    <div class="profile-actions" style="display:flex; justify-content: space-between;">
+                                        <a href="{% url 'gift:update_profile' %}"><button class="btn btn-primary">Edit Profile</button></a>
+                                        <a href="{% url 'gift:delete_user' user.username %}" onclick="return confirm('Are you sure you want to delete your profile?')"><button class="btn btn-danger">Delete Profile</button></a>
+                                    </div>
                                 {% else %}
                                     <h2>{{profile.username}}</h2>
                                     <!--<h4>Email: <span class="gift-value">{{profile.email}}</span></h4>-->

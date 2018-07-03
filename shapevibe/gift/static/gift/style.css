@@ -58,6 +58,13 @@ input[type=text]:focus, textarea:focus {
   border: 1px solid rgba(81, 203, 238, 1);
 }
 
+.btn {
+    border-radius: 10px;
+}
+.panel {
+    border-radius: 20px;
+}
+
 /* About */
 
 .got-it {
@@ -255,4 +262,12 @@ footer {
     width: 30%;
     margin-left: 3em;
   }
+}
+
+@media screen and (max-width: 991px) and (min-width:768px){
+    #giftInfo {
+        width: 100%;
+        display: flex;
+    }
+
 }

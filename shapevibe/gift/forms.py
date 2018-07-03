@@ -22,6 +22,7 @@ class GiftForm(forms.ModelForm):
 
 
 class UserForm(forms.ModelForm):
+    email = forms.CharField(required=True, max_length=32)
     #password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
@@ -31,6 +32,7 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(ProfileForm, self).__init__(*args, **kwargs)
+        self.fields['avatar'].label = 'Image: File must be PNG, JPG, JPEG, TIF, or TIFF'
         self.fields['tags'].label = 'Tags: *Separate each value with comma. 5 max.'
 
     class Meta:

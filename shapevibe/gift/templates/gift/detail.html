@@ -89,7 +89,7 @@
                         </div>
                     </div>
                     <div id="giftInfo">
-                        <div class="col-md-6 profile-half">
+                        <div class="col-md-6 profile-half" style="">
 
                             {% if gift.gift_image %}
                                 <img src="{{gift.gift_image.url}}" class="img-responsive" style="padding: 1em;" alt="">
@@ -114,7 +114,7 @@
                             </audio>
                         {% endif %}
                         </div>
-                        <div class="col-md-4 profile-half" style="height:auto;">
+                        <div class="col-md-4 profile-half" style="height:100%;">
 
                             {% if success_message %}
                                 <div class="alert alert-success">
