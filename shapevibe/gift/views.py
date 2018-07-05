@@ -181,7 +181,7 @@ def delete_user(request, username):
 # Authentication
 def logout_user(request):
     logout(request)
-    return HttpResponseRedirect('/login/')
+    return redirect('gift:login_user')
 
 def login_user(request):
     if request.method == "POST":
@@ -205,7 +205,8 @@ def register(request):
         if form.is_valid():
             user = form.save(commit=False)
             user.is_active = False
-            existing = User.objects.filter(username__iexact=user.cleaned_data['username'])
+            username = request.POST['username']
+            existing = User.objects.filter(username__iexact=username)
             if existing.exists():
                 return render(request, 'gift/register.html', {'form': SignupForm(), 'error_message': 'Username already taken.',})
             user.save()
@@ -236,7 +237,7 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user,backend='django.contrib.auth.backends.ModelBackend')
-        return HttpResponseRedirect('/gifts/')
+        return redirect('gift:index')
     else:
         return HttpResponse('Activation link is invalid!')
 

@@ -57,8 +57,8 @@
                                                     </div>
                                                     <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/eye.png' %}" height="50px" alt=""></a>
                                                     <div class="actions">
-                                                        <a href="{% url 'gift:edit_gift' gift.id %}"><i class="fa fa-edit"></i></a>
-                                                        <a href="{% url 'gift:delete_gift' gift.id %}" onclick="return confirm('Are you sure you want to delete gift?')"><i class="fa fa-trash"></i></a>
+                                                        <a href="{% url 'gift:edit_gift' gift.id %}"><button class="btn btn-primary" style="padding:5px;"><i class="fa fa-edit"></i></button></a>
+                                                        <a href="{% url 'gift:delete_gift' gift.id %}" onclick="return confirm('Are you sure you want to delete gift?')"><button class="btn btn-danger" style="padding:5px;"><i class="fa fa-trash"></i></button></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -108,13 +108,13 @@
                                 {% if user.username == profile.username %}
                                     <!-- Profile Pic -->
                                     {% if user.profile.avatar %}
-                                        <center><img src="{{ user.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%"></center>
+                                        <center><img src="{{ user.profile.avatar.url }}" alt="" width="200px" style="border-radius:50%"></center>
                                     {% else %}
                                         <center><img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px"></center>
                                     {% endif %}
                                 {% else %}
                                     {% if profile.profile.avatar %}
-                                        <center><img src="{{ profile.profile.avatar.url }}" alt="" width="200px" style="border-radius:20%"></center>
+                                        <center><img src="{{ profile.profile.avatar.url }}" alt="" width="200px" style="border-radius:50%"></center>
                                     {% else %}
                                         <center><img src="{% static 'gift/img/profile-icon.png' %}" alt="" width="200px"></center>
                                     {% endif %}
@@ -182,31 +182,39 @@
                                     about: <p class="profile-summary gift-value">{{profile.profile.summary}}</p>
                                     gifts: <br>
                                     <!-- scrollable list -->
-                                    {% for gift in gifts_by_viewed_user %}
-                                        <a href="{% url 'gift:detail' gift.id %}" style="text-decoration:none;">
-                                            <div class="well profile-gift-well" style="
-                                                height: 7em;
-                                                display: flex;
-                                                width: auto;
-                                                margin: 0 auto;
-                                                justify-content: space-around;">
-                                                {% if gift.gift_image %}
-                                                    <img src="{{gift.gift_image.url}}" class="img-responsive" width="80px" alt="">
-                                                {% else %}
-                                                    {% if gift.gift_audio %}
-                                                        <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" width="80px" alt="">
+                                    {% if gifts_by_viewed_user %}
+                                        <div class="profile-gift-wrapper" style="height:200px; overflow-y:scroll">
+                                            {% for gift in gifts_by_viewed_user %}
+                                            <a href="{% url 'gift:detail' gift.id %}" style="text-decoration:none;">
+                                                <div class="well profile-gift-well" style="
+                                                    height: 7em;
+                                                    display: flex;
+                                                    width: auto;
+                                                    margin: 0 auto;
+                                                    justify-content: space-around;">
+                                                    {% if gift.gift_image %}
+                                                        <img src="{{gift.gift_image.url}}" class="img-responsive" width="80px" alt="">
                                                     {% else %}
-                                                        <img src="{% static 'gift/img/iconMedium.png' %}" alt="" width="80px">
+                                                        {% if gift.gift_audio %}
+                                                            <img src="{% static 'gift/img/Shapevibe-Audio.png' %}" class="img-responsive" width="80px" alt="">
+                                                        {% else %}
+                                                            <img src="{% static 'gift/img/iconMedium.png' %}" alt="" width="80px">
+                                                        {% endif %}
                                                     {% endif %}
-                                                {% endif %}
-                                                <div class="profile-gift-well-caption" style="display:flex;">
-                                                    <span class="gift-value" style="color:darkgrey;">{{ gift.created_at }}</span><br>
-                                                    <span class="gift-value" style="color:darkgrey;">{{ gift.gift_title|title }}</span><br>
-                                                    <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/eye.png' %}" height="50px" alt=""></a>
+                                                    <div class="profile-gift-well-caption" style="display:flex;">
+                                                        <span class="gift-value" style="color:darkgrey;">{{ gift.created_at }}</span><br>
+                                                        <span class="gift-value" style="color:darkgrey;">{{ gift.gift_title|title }}</span><br>
+                                                        <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/eye.png' %}" height="50px" alt=""></a>
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </a>
-                                    {% endfor %}
+                                            </a>
+                                        {% endfor %}
+                                        </div>
+                                    {% else %}
+                                        <div class="alert alert-info">
+                                            <span class="gift-value">No gifts</span>
+                                        </div>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
