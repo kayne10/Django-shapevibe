@@ -21,7 +21,7 @@ from gift import views
 
 urlpatterns = [
     url('admin/', admin.site.urls),
-    url(r'alpha/gifts/', include('gift.urls')),
+    url(r'alpha/', include('gift.urls')),
     url(r'^', include('gift.urls')),
     url(r'alpha/about/$', views.about, name='about'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),

@@ -262,6 +262,12 @@ footer {
     width: 30%;
     margin-left: 3em;
   }
+  #id_summary {
+    width: 75%;
+  }
+  input {
+    border: 2px solid black;
+  }
 }
 
 @media screen and (max-width: 991px) and (min-width:768px){

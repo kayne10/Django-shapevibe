@@ -11,7 +11,7 @@ from django.template.loader import render_to_string
 from django.contrib.auth.models import User
 from django.db.models import Q
 from .tokens import account_activation_token
-from .forms import GiftForm, UserForm, SignupForm,ProfileForm
+from .forms import GiftForm, UserForm, SignupForm, ProfileForm
 from .models import Gift
 import datetime
 
@@ -41,7 +41,7 @@ def index(request):
             Q(username__contains=query) |
             Q(profile__first_name__iexact=query) |
             Q(profile__last_name__iexact=query) |
-            Q(profile__first_name__contains=query, profile__last_name__contains=query) |
+            Q(profile__first_name__icontains=query, profile__last_name__icontains=query) |
             Q(profile__tags__iexact=query)
         ).distinct()
         return render(request, 'gift/index.html', {'gifts': gifts, 'users': users, 'query': query})
@@ -237,7 +237,7 @@ def activate(request, uidb64, token):
         user.is_active = True
         user.save()
         login(request, user,backend='django.contrib.auth.backends.ModelBackend')
-        return redirect('gift:index')
+        return redirect('gift:view_profile', username=user.username) # redirect to complete registration
     else:
         return HttpResponse('Activation link is invalid!')
 
