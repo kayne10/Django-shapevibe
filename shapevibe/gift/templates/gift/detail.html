@@ -164,7 +164,7 @@
                 display:flex;
                 justify-content: space-between;
                 padding:1.5em; 0;">
-                <a href="{% url 'gift:view_profile' gift.user.username %}"><img src="{% static 'gift/img/home.png' %}" class="img-responsive" alt=""></></a>
+                <a href="{% url 'gift:view_profile' user.username %}"><img src="{% static 'gift/img/home.png' %}" class="img-responsive" alt=""></></a>
                 <a href="" style="padding:0 10px;"><img class="unavailable-content img-responsive" src="{% static 'gift/img/friends.png' %}" alt=""></a>
 
                 <button onclick="showAllGifts()" style="background:transparent;border:none;padding:0 10px;"><img src="{% static 'gift/img/gift.png' %}" class="img-responsive" alt=""></button>
