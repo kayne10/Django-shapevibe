@@ -1,0 +1,22 @@
+{% extends 'gift/base_visitor.html' %}
+{% block title %}Next Step{% endblock %}
+{% load static %}
+
+
+{% block body %}
+
+<div class="container-fluid">
+  <div class="col-sm-6 col-sm-offset-3 col-md-8 col-md-offset-2 col-lg-8 col-lg-offset-2">
+
+        <div class="auth-panel" style="padding: 3em 0;">
+            <img src="{% static 'gift/img/iconMedium.png' %}" width="150px" style="text-align:center;" alt="">
+            <h2>awesomeness</h2>
+            <p>a confirmation link has been sent, please check your email.</p>
+            <br>
+            <p>the world just got a little better!</p>
+        </div>
+
+  </div>
+</div>
+
+{% endblock %}

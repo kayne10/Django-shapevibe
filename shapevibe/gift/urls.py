@@ -1,5 +1,4 @@
 from django.conf.urls import url, include
-from django.contrib.auth import views as auth_views
 
 from . import views
 
@@ -19,9 +18,4 @@ urlpatterns = [
     url(r'^(?P<gift_id>[0-9]+)/edit/$', views.edit_gift, name='edit_gift'),
     url(r'^(?P<gift_id>[0-9]+)/delete/$', views.delete_gift, name='delete_gift'),
     url(r'^create_gift/$', views.create_gift, name='create_gift'),
-    url('^', include('django.contrib.auth.urls')),
-    url(r'^password_reset/$', auth_views.password_reset, {'template_name': 'registration/password_reset_form.html'}),
-    url(r'^password_reset/done/$', auth_views.password_reset_done),
-    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', auth_views.password_reset_confirm),
-    url(r'^reset/done/$', auth_views.password_reset_complete),
 ]

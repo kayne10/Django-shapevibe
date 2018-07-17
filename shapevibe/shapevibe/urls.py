@@ -18,6 +18,11 @@ from django.contrib import admin
 from django.conf import settings
 from django.conf.urls.static import static
 from gift import views
+from django.contrib.auth import views as auth_views
+
+
+admin.site.site_header = settings.ADMIN_SITE_HEADER
+
 
 urlpatterns = [
     url('admin/', admin.site.urls),
@@ -25,6 +30,11 @@ urlpatterns = [
     url(r'^', include('gift.urls')),
     url(r'alpha/about/$', views.about, name='about'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
+    url('^', include('django.contrib.auth.urls')),
+    url(r'^password_reset/$', auth_views.password_reset),
+    url(r'^password_reset/done/$', auth_views.password_reset_done),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', auth_views.password_reset_confirm),
+    url(r'^reset/done/$', auth_views.password_reset_complete),
 ]
 
 if settings.DEBUG:

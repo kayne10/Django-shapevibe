@@ -252,6 +252,9 @@ footer {
 
 /* mobile media query additions */
 @media screen and (max-width: 767px) {
+  .panel {
+    margin-bottom:4em;
+  }
   .profile-half {
     width:100%;
   }
@@ -275,5 +278,7 @@ footer {
         width: 100%;
         display: flex;
     }
-
+    .panel {
+        margin-bottom: 4em;
+    }
 }

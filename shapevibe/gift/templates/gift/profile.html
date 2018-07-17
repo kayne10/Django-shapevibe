@@ -18,7 +18,7 @@
                     <a href="{% url 'gift:create_gift' %}"><button id="giftButton" class="btn btn-primary" style="display:none;height:2em;margin-top:2em;">Add Gift +</button></a>
 
                 </div>
-                <div class="panel panel-default" style="height:450px;overflow-y:scroll">
+                <div class="panel panel-default" style="height:520px;overflow-y:scroll">
                     <div class="row" id="profileWrapper">
                         <!-- List of User's gifts -->
                         <div class="gift-list" id="giftList" style="
@@ -147,7 +147,7 @@
                                                     width: auto;
                                                     margin: 0 auto;
                                                     ">
-                                                    <div class="profile-gift-well" style="height:100%; width:100%; display-flex; justify-content:space-between;">
+                                                    <div class="profile-gift-well" style="height:100%; width:100%; display-flex; justify-content:space-around;">
                                                         {% if gift.gift_image %}
                                                             <img src="{{gift.gift_image.url}}" class="img-responsive" width="60px" alt="">
                                                         {% else %}
@@ -169,7 +169,6 @@
                                     {% else %}
                                         <div class="alert alert-info">You have no gifts posted.</div>
                                     {% endif %}
-                                <hr>
                                     <div class="profile-actions" style="display:flex; justify-content: space-between;">
                                         <a href="{% url 'gift:update_profile' %}"><button class="btn btn-primary">Edit Profile</button></a>
                                         <a href="{% url 'gift:delete_user' user.username %}" onclick="return confirm('Are you sure you want to delete your profile?')"><button class="btn btn-danger">Delete Profile</button></a>

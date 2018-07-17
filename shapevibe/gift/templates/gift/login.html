@@ -18,7 +18,7 @@
             <div class="form-group">
                 <label class="control-label col-form-label" for="id_username" style="margin: 0 auto;">Username:</label>
 
-                <input class="form-control" id="id_username" maxlength="30" name="username" type="text" style="
+                <input class="form-control gift-value" id="id_username" maxlength="30" name="username" type="text" style="
                     width: 50%;
                     margin: 0 auto;
                     border-radius: 5px;
@@ -31,7 +31,7 @@
             <div class="form-group">
                 <label class="control-label col-form-label" for="id_password">Password:</label>
 
-                <input class="form-control" id="id_password" maxlength="30" name="password" type="password" style="
+                <input class="form-control gift-value" id="id_password" maxlength="30" name="password" type="password" style="
                     width: 50%;
                     margin: 0 auto;
                     border-radius: 5px;
@@ -46,9 +46,11 @@
         <p class="gift-value"><a href="/password_reset">Forgot you password?</a></p>
         <br>
         <strong>-- OR --</strong><br>
-        <a href="{% url 'social:begin' 'twitter' %}" class="gift-value">Login with Twitter</a><br>
-        <a href="{% url 'social:begin' 'facebook' %}" class="gift-value">Login with Facebook</a><br>
-        <a href="{% url 'social:begin' 'google-oauth2' %}" class="gift-value">Login with Google+</a>
+        <div style="width:200px; margin:0 auto; display:flex; justify-content:space-around">
+            <a href="{% url 'social:begin' 'twitter' %}" class="gift-value" style="font-size:2em;"><i class="fa fa-twitter" aria-hidden="true"></i></a><br>
+            <a href="{% url 'social:begin' 'facebook' %}" class="gift-value" style="font-size:2em;"><i class="fa fa-facebook-official" aria-hidden="true"></i></a><br>
+            <a href="{% url 'social:begin' 'google-oauth2' %}" class="gift-value" style="font-size:2em;"><i class="fa fa-google-plus-official" aria-hidden="true"></i></a>
+        </div>
         <br>
         <hr>
         <div class="login-footer gift-value">

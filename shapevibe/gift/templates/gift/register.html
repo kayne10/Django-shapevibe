@@ -13,21 +13,27 @@
                 {{ error_message }}
             </div>
         {% endif %}
-        <form class="form-horizontal" role="form" action="" method="post" enctype="multipart/form-data">
+        <form class="" role="form" action="" method="post" enctype="multipart/form-data">
             {% csrf_token %}
-                {% for field in form %}
-               <div class="form-group sm" style="text-align:center;">
+
+            {% for field in form %}
+               <div class="form-group" style="text-align:center;">
                    {{ field.label_tag }}
 
-                   {{ field }}
+                   <center class="gift-value">{{ field }}</center>
                </div>
-                {% endfor %}
+            {% endfor %}
             <button type="submit" class="btn btn-success">Sign up</button>
         </form>
+        <br>
         <strong>-- OR --</strong><br>
-        <a href="{% url 'social:begin' 'twitter' %}" class="gift-value">Login with Twitter</a><br>
-        <a href="{% url 'social:begin' 'facebook' %}" class="gift-value">Login with Facebook</a><br>
-        <a href="{% url 'social:begin' 'google-oauth2' %}" class="gift-value">Login with Google+</a>
+
+            <div style="width:200px; margin:0 auto; display:flex; justify-content:space-around">
+                <a href="{% url 'social:begin' 'twitter' %}" class="gift-value" style="font-size:2em;"><i class="fa fa-twitter" aria-hidden="true"></i></a><br>
+                <a href="{% url 'social:begin' 'facebook' %}" class="gift-value" style="font-size:2em;"><i class="fa fa-facebook-official" aria-hidden="true"></i></a><br>
+                <a href="{% url 'social:begin' 'google-oauth2' %}" class="gift-value" style="font-size:2em;"><i class="fa fa-google-plus-official" aria-hidden="true"></i></a>
+            </div>
+
         <br>
         <hr>
         <div class="login-footer gift-value">

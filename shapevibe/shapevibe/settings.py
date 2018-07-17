@@ -199,6 +199,7 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
     'social_core.pipeline.social_auth.associate_by_email',
+    'gift.pipelines.save_profile_picture',
 )
 
 #email settings
@@ -209,3 +210,6 @@ EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = data['emailHost']
 EMAIL_HOST_PASSWORD = data['emailHostPassword']
 EMAIL_PORT = 587
+
+
+ADMIN_SITE_HEADER = "Shapevibe Administration"

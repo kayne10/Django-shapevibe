@@ -40,11 +40,18 @@ class ProfileForm(forms.ModelForm):
         fields = ('first_name', 'last_name', 'summary', 'avatar', 'tags')
 
 class SignupForm(UserCreationForm):
+    def __init__(self, *args, **kwargs):
+        super(SignupForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['class'] = 'form-control'
+        self.fields['email'].widget.attrs['class'] = 'form-control'
+        self.fields['password1'].widget.attrs['class'] = 'form-control'
+        self.fields['password2'].widget.attrs['class'] = 'form-control'
+
     email = forms.EmailField(max_length=200, help_text='Required')
 
     class Meta:
         model = User
         fields = ('username', 'email', 'password1', 'password2')
         widgets = {
-            'email': forms.TextInput(attrs={'class': 'auth-input'}),
+            'email': forms.TextInput(attrs={'class': 'form-control'}),
         }

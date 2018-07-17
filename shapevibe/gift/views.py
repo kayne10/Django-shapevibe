@@ -222,7 +222,7 @@ def register(request):
             email = EmailMessage(mail_subject, message, to=[to_email])
             email.send()
             # probably a good idea to make a template
-            return HttpResponse('Please confirm your email to complete registration')
+            return render(request, 'gift/registration_next.html')
     else:
         form = SignupForm()
     return render(request, 'gift/register.html', {'form': form})
