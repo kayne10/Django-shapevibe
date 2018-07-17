@@ -37,6 +37,16 @@ body {
     font-family: 'Futura-Medium';
 }
 
+.btn-success {
+    background-color: #91a735;
+}
+.btn-primary {
+    background-color: #64b2e0;
+}
+.btn-danger {
+    background-color: #d21f39;
+}
+
 
 /* inputs */
 inputs {

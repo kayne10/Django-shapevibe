@@ -102,7 +102,7 @@ def edit_gift(request, gift_id):
                     audio_file_type = gift.gift_audio.url.split('.')[-1].lower()
                 gift.handle_tags_when_free()
                 gift.save()
-                return render(request, 'gift/detail.html', {'gift': gift, 'success_message':'Succesffully edited gift.'})
+                return render(request, 'gift/detail.html', {'gift': gift, 'success_message':'Successfully edited gift.'})
         except:
             context = {
                 'gift': gift,

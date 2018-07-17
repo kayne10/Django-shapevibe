@@ -94,7 +94,7 @@
                                                     <a href="{% url 'gift:detail' gift.id %}"><img src="{% static 'gift/img/eye.png' %}" height="50px" alt=""></a>
                                                     <div class="actions">
                                                         <a href="{% url 'gift:edit_gift' gift.id %}"><button style="padding:5px;" class="btn btn-primary"><i class="fa fa-edit"></i></button></a>
-                                                        <a href="{% url 'gift:delete_gift' gift.id %}" onclick="return confirm('Are you sure you want to delete gift?')"><button style="padding:5px" class="btn btn-danger"><i class="fa fa-trash"></i></button></a>
+                                                        <a href="{% url 'gift:delete_gift' gift.id %}" onclick="return confirm('Are you sure you want to delete gift?')"><button style="padding:5px;" class="btn btn-danger"><i class="fa fa-trash"></i></button></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -170,7 +170,7 @@
                                         <div class="alert alert-info">You have no gifts posted.</div>
                                     {% endif %}
                                     <div class="profile-actions" style="display:flex; justify-content: space-between;">
-                                        <a href="{% url 'gift:update_profile' %}"><button class="btn btn-primary">Edit Profile</button></a>
+                                        <a href="{% url 'gift:update_profile' %}"><button class="btn btn-primary" style="background-color:#64b2e0;">Edit Profile</button></a>
                                         <a href="{% url 'gift:delete_user' user.username %}" onclick="return confirm('Are you sure you want to delete your profile?')"><button class="btn btn-danger">Delete Profile</button></a>
                                     </div>
                                 {% else %}
