@@ -25,7 +25,7 @@ data = json.load(codecs.open('./shapevibe/creds.json', 'r', 'utf-8-sig'))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '9iwyb_4y0ev8^@*k9(-@ud%lj6q3f3mubg#2)94zje(hob%(j)'
+SECRET_KEY = data['secretKey']
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
